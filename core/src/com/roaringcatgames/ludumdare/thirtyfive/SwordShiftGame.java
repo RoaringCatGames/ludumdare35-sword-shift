@@ -3,7 +3,9 @@ package com.roaringcatgames.ludumdare.thirtyfive;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.roaringcatgames.ludumdare.thirtyfive.screens.LoadingScreen;
 import com.roaringcatgames.ludumdare.thirtyfive.screens.MenuScreen;
 
 public class SwordShiftGame extends Game implements IGameProcessor {
@@ -12,20 +14,27 @@ public class SwordShiftGame extends Game implements IGameProcessor {
 	public AssetManager am;
 
 	private SpriteBatch batch;
+	private OrthographicCamera cam;
+	private OrthographicCamera guiCam;
 
+    Screen loadingScreen;
 	Screen menuScreen;
 	Screen gameScreen;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		cam = new OrthographicCamera(App.W, App.H);
+		guiCam = new OrthographicCamera(App.PixelW, App.PixelW);
+
+        loadingScreen = new LoadingScreen(this);
 		menuScreen = new MenuScreen(this);
 
 		//NOTE: We force finishLoading of the Loading Frames
 		//  so we can count on it.
 		am = Assets.load();
-		am.finishLoading();
-		setScreen(menuScreen);
+
+		setScreen(loadingScreen);
 
 		Gdx.input.setInputProcessor(multiplexer);
 	}
@@ -54,7 +63,15 @@ public class SwordShiftGame extends Game implements IGameProcessor {
 
 	@Override
 	public void switchScreens(String screenName) {
-		setScreen(menuScreen);
+		switch(screenName){
+			case "MENU":
+				setScreen(menuScreen);
+				break;
+			case "GAME":
+				setScreen(gameScreen);
+				break;
+		}
+
 	}
 
 	@Override
@@ -65,5 +82,15 @@ public class SwordShiftGame extends Game implements IGameProcessor {
 	@Override
 	public void removeInputProcessor(InputProcessor processor) {
  		multiplexer.removeProcessor(processor);
+	}
+
+	@Override
+	public OrthographicCamera getCamera() {
+		return cam;
+	}
+
+	@Override
+	public OrthographicCamera getGUICam() {
+		return guiCam;
 	}
 }

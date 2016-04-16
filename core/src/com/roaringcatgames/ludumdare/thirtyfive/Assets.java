@@ -3,17 +3,17 @@ package com.roaringcatgames.ludumdare.thirtyfive;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 
 /**
  * Created by barry on 4/16/16 @ 12:04 PM.
  */
 public class Assets {
 
-    private static AssetManager am;
+    public static AssetManager am;
 
     public static AssetManager load(){
         am = new AssetManager();
@@ -26,9 +26,19 @@ public class Assets {
         return am;
     }
 
+    public static Array<TextureAtlas.AtlasRegion> getLoadingFrames(){
+        return am.get(LOADING_ATLAS, TEXTURE_ATLAS).findRegions("loading");
+    }
+
     public static TextureRegion getBadGuyTexture(){
         return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("badlogic");
     }
+
+    public static Array<TextureAtlas.AtlasRegion> getTestFrames(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("test");
+    }
+
+
 
     private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     private static Class<Music> MUSIC = Music.class;
@@ -39,4 +49,6 @@ public class Assets {
     private static final String LOADING_ATLAS = "animations/loading.atlas";
     private static final String ANI_ATLAS = "animations/animations.atlas";
     private static final String SPRITE_ATLAS = "sprites/sprites.atlas";
+
+
 }

@@ -4,15 +4,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
-import com.roaringcatgames.kitten2d.ashley.components.KinematicComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TextureComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
-import com.roaringcatgames.kitten2d.ashley.components.VelocityComponent;
+import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.kitten2d.ashley.systems.DebugSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.GravitySystem;
 import com.roaringcatgames.kitten2d.ashley.systems.MovementSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.RenderingSystem;
+import com.roaringcatgames.ludumdare.thirtyfive.Animations;
 import com.roaringcatgames.ludumdare.thirtyfive.App;
 import com.roaringcatgames.ludumdare.thirtyfive.Assets;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
@@ -42,6 +41,10 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
         Entity entity = engine.createEntity();
         entity.add(TextureComponent.create(engine)
             .setRegion(Assets.getBadGuyTexture()));
+
+        entity.add(AnimationComponent.create(engine)
+            .addAnimation("DEFAULT", Animations.getTestAnimation()));
+        entity.add(StateComponent.create(engine).set("DEFAULT"));
 
         entity.add(TransformComponent.create(engine)
             .setPosition(10f, 10f, 1f)

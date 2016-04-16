@@ -1,6 +1,7 @@
 package com.roaringcatgames.ludumdare.thirtyfive;
 
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
@@ -12,4 +13,7 @@ public interface IGameProcessor {
     void switchScreens(String screenName);
     void addInputProcessor(InputProcessor processor);
     void removeInputProcessor(InputProcessor processor);
+
+    OrthographicCamera getCamera();
+    OrthographicCamera getGUICam();
 }

@@ -1,4 +1,4 @@
-package com.roaringcatgames.ludumdare.35;
+package com.roaringcatgames.ludumdare.thirtyfive;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

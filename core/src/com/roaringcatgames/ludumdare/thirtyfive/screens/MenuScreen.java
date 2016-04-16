@@ -94,6 +94,8 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+        game.switchScreens("GAME");
         return false;
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.roaringcatgames.ludumdare.thirtyfive.screens.GameScreen;
 import com.roaringcatgames.ludumdare.thirtyfive.screens.LoadingScreen;
 import com.roaringcatgames.ludumdare.thirtyfive.screens.MenuScreen;
 
@@ -29,6 +30,7 @@ public class SwordShiftGame extends Game implements IGameProcessor {
 
         loadingScreen = new LoadingScreen(this);
 		menuScreen = new MenuScreen(this);
+        gameScreen = new GameScreen(this);
 
 		//NOTE: We force finishLoading of the Loading Frames
 		//  so we can count on it.

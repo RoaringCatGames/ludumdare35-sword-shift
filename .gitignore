@@ -67,6 +67,7 @@ ios/robovm-build
 .DS_Store
 
 ## Game Specific
-android/assets/animations
-android/assets/sprites
+core/assets/animations
+core/assets/sprites
+core/assets/loading
 

@@ -59,6 +59,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion:sources"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion:sources"
+        compile "com.roaringcatgames.kitten2d.ashley:ashley-extensions:$kitten2DExtensionsVersion:sources"
     }
 }
 
@@ -70,8 +71,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
-        compile "com.roaringcatgames.kitten2d/ashley/ashley-extensions:$kitten2DExtensionsVersion"
-        compile "com.roaringcatgames.kitten2d/ashley/ashley-extensions:$kitten2DExtensionsVersion:sources"
+        compile "com.roaringcatgames.kitten2d.ashley:ashley-extensions:$kitten2DExtensionsVersion"
+        compile "com.roaringcatgames.kitten2d.ashley:ashley-extensions:$kitten2DExtensionsVersion:sources"
     }
 }
 

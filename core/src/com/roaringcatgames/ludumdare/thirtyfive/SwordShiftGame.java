@@ -1,27 +1,69 @@
 package com.roaringcatgames.ludumdare.thirtyfive;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.roaringcatgames.ludumdare.thirtyfive.screens.MenuScreen;
 
-public class SwordShiftGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	
+public class SwordShiftGame extends Game implements IGameProcessor {
+
+	public InputMultiplexer multiplexer = new InputMultiplexer();
+	public AssetManager am;
+
+	private SpriteBatch batch;
+
+	Screen menuScreen;
+	Screen gameScreen;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		menuScreen = new MenuScreen(this);
+
+		//NOTE: We force finishLoading of the Loading Frames
+		//  so we can count on it.
+		am = Assets.load();
+		am.finishLoading();
+		setScreen(menuScreen);
+
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		float r = 29/255f;
+		float g = 29/255f;
+		float b = 27/255f;
+		Gdx.gl.glClearColor(r, g, b, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+
+
+//		Screen nextScreen = screenDispatcher.getNextScreen();
+//		if(nextScreen != getScreen()){
+//			setScreen(nextScreen);
+//		}
+
+		super.render();
+	}
+
+	@Override
+	public SpriteBatch getBatch() {
+		return batch;
+	}
+
+	@Override
+	public void switchScreens(String screenName) {
+		setScreen(menuScreen);
+	}
+
+	@Override
+	public void addInputProcessor(InputProcessor processor) {
+		multiplexer.addProcessor(processor);
+	}
+
+	@Override
+	public void removeInputProcessor(InputProcessor processor) {
+ 		multiplexer.removeProcessor(processor);
 	}
 }

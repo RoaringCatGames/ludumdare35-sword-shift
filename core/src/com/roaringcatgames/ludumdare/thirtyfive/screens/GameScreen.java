@@ -38,6 +38,8 @@ public class GameScreen extends LazyInitScreen{
         engine.addSystem(new BoundsSystem());
         engine.addSystem(new MultiBoundsSystem());
         engine.addSystem(new RemainInBoundsSystem(minBounds, maxBounds));
+        engine.addSystem(new FadingSystem());
+        engine.addSystem(new ParticleSystem());
 
         engine.addSystem(renderer);
         engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));
@@ -47,7 +49,7 @@ public class GameScreen extends LazyInitScreen{
         playBounds.add(BoundsComponent.create(engine)
             .setBounds(minBounds.x, minBounds.y, maxBounds.x-minBounds.x, maxBounds.y - minBounds.y));
         playBounds.add(TransformComponent.create(engine)
-            .setPosition((maxBounds.x-minBounds.x)/2, (maxBounds.y-minBounds.y)/2f));
+            .setPosition((maxBounds.x - minBounds.x) / 2, (maxBounds.y - minBounds.y) / 2f));
         engine.addEntity(playBounds);
         //END DEBUG PURPOSES
 
@@ -75,6 +77,17 @@ public class GameScreen extends LazyInitScreen{
 
         entity.add(VelocityComponent.create(engine)
                 .setSpeed(2f, 3f));
+
+        entity.add(ParticleEmitterComponent.create(engine)
+            .setAngleRange(0f, 360f)
+            .setDuration(10f)
+            .setShouldLoop(true)
+            .setParticleImages(Assets.getTestFrames())
+            .setParticleLifespans(0.5f, 1f)
+            .setShouldFade(true)
+            .setSpawnRate(200f)
+            .setSpeed(2f, 10f)
+            .setZIndex(0f));
 
         engine.addEntity(entity);
     }

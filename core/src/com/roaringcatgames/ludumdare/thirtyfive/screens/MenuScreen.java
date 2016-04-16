@@ -3,14 +3,14 @@ package com.roaringcatgames.ludumdare.thirtyfive.screens;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.roaringcatgames.kitten2d.ashley.components.*;
-import com.roaringcatgames.kitten2d.ashley.systems.DebugSystem;
-import com.roaringcatgames.kitten2d.ashley.systems.GravitySystem;
-import com.roaringcatgames.kitten2d.ashley.systems.MovementSystem;
-import com.roaringcatgames.kitten2d.ashley.systems.RenderingSystem;
+import com.roaringcatgames.kitten2d.ashley.systems.*;
 import com.roaringcatgames.ludumdare.thirtyfive.Animations;
 import com.roaringcatgames.ludumdare.thirtyfive.App;
 import com.roaringcatgames.ludumdare.thirtyfive.Assets;
@@ -32,11 +32,14 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
     protected void init() {
         engine = new PooledEngine();
 
-        engine.addSystem(new RenderingSystem(game.getBatch(), App.PPM));
+        RenderingSystem renderer = new RenderingSystem(game.getBatch(), App.PPM);
+
         engine.addSystem(new MovementSystem());
         engine.addSystem(new GravitySystem(new Vector2(-0.5f, -2.5f)));
+        engine.addSystem(new MultiBoundsSystem());
 
-        //engine.addSystem(new DebugSystem();
+        engine.addSystem(renderer);
+        engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));
 
         Entity entity = engine.createEntity();
         entity.add(TextureComponent.create(engine)
@@ -49,6 +52,12 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
         entity.add(TransformComponent.create(engine)
             .setPosition(10f, 10f, 1f)
             .setRotation(30f));
+
+        entity.add(MultiBoundsComponent.create(engine)
+            .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, 0.5f))
+            .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, -0.5f))
+            .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, 0.5f))
+            .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, -0.5f)));
 
         entity.add(VelocityComponent.create(engine)
             .setSpeed(2f, 3f));

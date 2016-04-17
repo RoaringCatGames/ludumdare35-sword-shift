@@ -13,6 +13,7 @@ public class PlayerComponent implements Component,Pool.Poolable{
     public AuraType auraType = AuraType.PURPLE;
     public boolean isAttacking = false;
     public int energyLevel = 0;
+    public WeaponType weaponType = WeaponType.DAGGER;
 
     public static PlayerComponent create(Engine engine){
         if(engine instanceof PooledEngine){

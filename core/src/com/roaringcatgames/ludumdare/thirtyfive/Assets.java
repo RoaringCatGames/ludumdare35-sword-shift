@@ -43,6 +43,28 @@ public class Assets {
     }
 
 
+    public static TextureAtlas.AtlasRegion getGrassBack1(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/grassback1");
+    }
+    public static TextureAtlas.AtlasRegion getGrassBack2(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/grassback2");
+    }
+    public static TextureAtlas.AtlasRegion getGrassFront1(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/grassfront1");
+    }
+    public static TextureAtlas.AtlasRegion getGrassFront2(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/grassfront2");
+    }
+    public static TextureAtlas.AtlasRegion getMountain(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/mountain");
+    }
+    public static TextureAtlas.AtlasRegion getWalkpath(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/walkpath");
+    }
+
+
+
+
 
     private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;
     private static Class<Music> MUSIC = Music.class;

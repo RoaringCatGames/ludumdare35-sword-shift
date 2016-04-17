@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.ludumdare.thirtyfive.Animations;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
+import com.roaringcatgames.ludumdare.thirtyfive.Z;
 import com.roaringcatgames.ludumdare.thirtyfive.components.PlayerComponent;
 import com.sun.glass.ui.EventLoop;
 
@@ -61,11 +62,12 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             player = engine.createEntity();
 
             player.add(PlayerComponent.create(engine));
+            player.add(RemainInBoundsComponent.create(engine));
             player.add(VelocityComponent.create(engine)
                 .setSpeed(0f,0f));
             player.add(TransformComponent.create(engine)
                     .setOpacity(1f)
-                    .setPosition(10f, 10f, 1f));
+                    .setPosition(10f, 10f, Z.player));
             player.add(BoundsComponent.create(engine)
                     .setBounds(3f, 3f, 1f, 1f));
             player.add(StateComponent.create(engine)
@@ -78,6 +80,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             engine.addEntity(player);
 
         }
+        isInitialized = true;
     }
 
     public void update(float deltaTime) {
@@ -180,6 +183,5 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-
     }
 }

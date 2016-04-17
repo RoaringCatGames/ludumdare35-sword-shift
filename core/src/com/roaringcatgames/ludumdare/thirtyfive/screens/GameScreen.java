@@ -11,6 +11,8 @@ import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 import com.roaringcatgames.kitten2d.ashley.systems.*;
 import com.roaringcatgames.ludumdare.thirtyfive.App;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
+import com.roaringcatgames.ludumdare.thirtyfive.systems.BackgroundSystem;
+import com.roaringcatgames.ludumdare.thirtyfive.systems.CameraSystem;
 import com.roaringcatgames.ludumdare.thirtyfive.systems.EnemySpawnerSystem;
 import com.roaringcatgames.ludumdare.thirtyfive.systems.PlayerSystem;
 
@@ -24,7 +26,7 @@ public class GameScreen extends LazyInitScreen{
     private PooledEngine engine;
 
     private Vector2 minBounds = new Vector2(0f, 0f);
-    private Vector2 maxBounds = new Vector2(10000f, 20f);
+    private Vector2 maxBounds = new Vector2(40f*App.TileCount, 15f);
     private Vector3 playerPosition = new Vector3(3f, 3f, 1f);
     private float initialScale = 1f;
     public GameScreen(IGameProcessor game){
@@ -44,8 +46,10 @@ public class GameScreen extends LazyInitScreen{
         engine.addSystem(new RemainInBoundsSystem(minBounds, maxBounds));
         engine.addSystem(new FadingSystem());
         engine.addSystem(new ParticleSystem());
+        engine.addSystem(new BackgroundSystem());
         engine.addSystem(new EnemySpawnerSystem(renderer.getCamera()));
         engine.addSystem(new PlayerSystem(playerPosition, initialScale, game));
+        engine.addSystem(new CameraSystem(renderer.getCamera(), 2f));
         engine.addSystem(new AnimationSystem());
 
 

@@ -5,6 +5,7 @@ package com.roaringcatgames.ludumdare.thirtyfive;
  */
 public class App {
     public static final float MAX_DELTA = 0.1666f;
+    public static final int TileCount = 11;
     public static final int PixelW = 1280;
     public static final int PixelH = 960;
 

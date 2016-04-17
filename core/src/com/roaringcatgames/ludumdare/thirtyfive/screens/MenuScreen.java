@@ -78,7 +78,6 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
-        Gdx.app.log("Menu Screen", "Key pressed: " + keycode);
         return false;
     }
 

@@ -10,6 +10,7 @@ import com.roaringcatgames.kitten2d.ashley.components.BoundsComponent;
 import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 import com.roaringcatgames.kitten2d.ashley.systems.*;
 import com.roaringcatgames.ludumdare.thirtyfive.App;
+import com.roaringcatgames.ludumdare.thirtyfive.Assets;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
 import com.roaringcatgames.ludumdare.thirtyfive.systems.BackgroundSystem;
 import com.roaringcatgames.ludumdare.thirtyfive.systems.CameraSystem;
@@ -51,10 +52,12 @@ public class GameScreen extends LazyInitScreen{
         engine.addSystem(new PlayerSystem(playerPosition, initialScale, game));
         engine.addSystem(new CameraSystem(renderer.getCamera(), 2f));
         engine.addSystem(new AnimationSystem());
+        engine.addSystem(new FPSSystem(Assets.getFont32(), new Vector2(0.5f, 2f)));
 
 
         engine.addSystem(renderer);
         engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));
+        engine.addSystem(new TextRenderingSystem(game.getBatch(),game.getGUICam(), game.getCamera()));
 
         //FOR DEBUG PURPOSES ONLY
         Entity playBounds = engine.createEntity();

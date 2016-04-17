@@ -131,9 +131,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         isPressed.add(keycode);
-        Gdx.app.log(String.valueOf(isPressed), "");
         if(Input.Keys.SHIFT_LEFT == keycode) {
-            Gdx.app.log("YUP", "");
             player.getComponent(StateComponent.class).set("DAGGER_IDLE");
 
 

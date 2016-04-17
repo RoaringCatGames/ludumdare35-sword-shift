@@ -15,6 +15,8 @@ import com.roaringcatgames.ludumdare.thirtyfive.Animations;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
 import com.roaringcatgames.ludumdare.thirtyfive.Z;
 import com.roaringcatgames.ludumdare.thirtyfive.components.PlayerComponent;
+import com.roaringcatgames.ludumdare.thirtyfive.components.RotateTo;
+import com.roaringcatgames.ludumdare.thirtyfive.components.RotateToComponent;
 import com.sun.glass.ui.EventLoop;
 
 import java.util.ArrayList;
@@ -30,7 +32,13 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     private ComponentMapper<PlayerComponent> pm;
     private IGameProcessor game;
     private ComponentMapper<VelocityComponent> vm;
+    private ComponentMapper<StateComponent> sm;
+    private ComponentMapper<TransformComponent> tm;
+    private boolean isAttacking;
+    private ComponentMapper<RotateToComponent> rtm;
+
     private ArrayList<Integer> isPressed = new ArrayList();
+
 
 
     public PlayerSystem(Vector3 initialPosition, float initialScale, IGameProcessor game){
@@ -39,6 +47,9 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         this.initialScale = initialScale;
         this.pm = ComponentMapper.getFor(PlayerComponent.class);
         this.vm = ComponentMapper.getFor(VelocityComponent.class);
+        this.sm = ComponentMapper.getFor(StateComponent.class);
+        this.tm = ComponentMapper.getFor(TransformComponent.class);
+        this.rtm = ComponentMapper.getFor(RotateToComponent.class);
         this.game = game;
     }
 
@@ -77,6 +88,9 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             player.add(AnimationComponent.create(engine)
                     .addAnimation("DEFAULT", Animations.getTestAnimation())
                     .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation()));
+            player.add(RotateToComponent.create(engine)
+                    .addRotateTo(90f, 5f)
+                    .addRotateTo(-90f, -10f));
             engine.addEntity(player);
 
         }
@@ -90,24 +104,64 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             init();
         }
 
+        VelocityComponent vc = vm.get(player);
+        TransformComponent tc = tm.get(player);
+        RotateToComponent rtc = rtm.get(player);
         if(isPressed.contains(new Integer(Input.Keys.LEFT))) {
-            player.getComponent(VelocityComponent.class).setSpeed(-10f, player.getComponent(VelocityComponent.class).speed.y);
+            vc.setSpeed(-10f, vc.speed.y);
         }
         if(isPressed.contains(new Integer(Input.Keys.RIGHT))) {
-            player.getComponent(VelocityComponent.class).setSpeed(10f, player.getComponent(VelocityComponent.class).speed.y);
+            vc.setSpeed(10f, vc.speed.y);
         }
         if(isPressed.contains(new Integer(Input.Keys.UP))) {
-            player.getComponent(VelocityComponent.class).setSpeed(player.getComponent(VelocityComponent.class).speed.x, 10f);
+            vc.setSpeed(vc.speed.x, 10f);
         }
         if(isPressed.contains(new Integer(Input.Keys.DOWN))) {
-            player.getComponent(VelocityComponent.class).setSpeed(player.getComponent(VelocityComponent.class).speed.x, -10f);
+            vc.setSpeed(vc.speed.x, -10f);
         }
 
         if(isPressed.contains(new Integer(Input.Keys.SPACE))) {
-            float rotation = player.getComponent(TransformComponent.class).rotation;
-            player.getComponent(TransformComponent.class).setRotation(rotation - 15f);
+            //swingDagger();
+
 
         }
+
+        //attack state
+        if(isAttacking){
+
+            //get un-finished rotation
+            float initRotation = tc.rotation;
+            boolean doneAnimating = true;
+            RotateTo rotation = null;
+            for(int i =0; i < rtc.Rotations.size; i++){
+                if(!rtc.Rotations.get(i).isFinished) {
+                    rotation = rtc.Rotations.get(i);
+                    doneAnimating = false;
+                    break;
+                }
+            }
+
+
+            if(doneAnimating) {
+                //return to idle
+                isAttacking = false;
+                swingDagger(0.0f);
+            }else {
+                //do the rotation
+                boolean isAtTarget = false;
+                float newRotation = initRotation + rotation.rotationSpeed;
+                if (rotation.rotationSpeed < 0f && newRotation <= rotation.targetRotation) {
+                    swingDagger(Math.max(newRotation, rotation.targetRotation));
+                    rotation.isFinished = true;
+                } else if (rotation.rotationSpeed > 0f && newRotation >= rotation.targetRotation) {
+                    swingDagger(Math.min(newRotation, rotation.targetRotation));
+                    rotation.isFinished = true;
+                } else {
+                    swingDagger(initRotation + rotation.rotationSpeed);
+                }
+            }
+        }
+
         //decelerate
         Vector2 speed = player.getComponent(VelocityComponent.class).speed;
         if(speed.x > 0){
@@ -137,9 +191,13 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
             StateComponent sc = player.getComponent(StateComponent.class);
             AnimationComponent ac = player.getComponent(AnimationComponent.class);
-            //
             ac.animations.get(sc.get()).isAnimationFinished(sc.time);
         }
+
+        if(Input.Keys.SPACE == keycode) {
+           isAttacking = true;
+        }
+
         return false;
     }
 
@@ -181,5 +239,9 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+    }
+    /*HELPER FUNCTIONS*/
+    public void swingDagger(float degree){
+        player.getComponent(TransformComponent.class).setRotation(degree);
     }
 }

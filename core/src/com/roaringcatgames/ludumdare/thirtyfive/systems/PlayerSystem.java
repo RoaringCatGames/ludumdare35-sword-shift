@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.ludumdare.thirtyfive.Animations;
+import com.roaringcatgames.ludumdare.thirtyfive.Assets;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
 import com.roaringcatgames.ludumdare.thirtyfive.Z;
 import com.roaringcatgames.ludumdare.thirtyfive.components.PlayerComponent;
@@ -38,6 +39,11 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     private boolean isAttacking;
     private ComponentMapper<RotateToComponent> rtm;
 
+    private Sound daggerSfx;
+    private Sound hatchetSfx;
+    private Sound katanaSfx;
+    private Sound busterSfx;
+
     //private Sound
 
     private ArrayList<Integer> isPressed = new ArrayList();
@@ -53,6 +59,13 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         this.sm = ComponentMapper.getFor(StateComponent.class);
         this.tm = ComponentMapper.getFor(TransformComponent.class);
         this.rtm = ComponentMapper.getFor(RotateToComponent.class);
+
+        daggerSfx = Assets.getDaggerSfx();
+        hatchetSfx = Assets.getHatchetSfx();
+        katanaSfx = Assets.getKatanaSfx();
+        busterSfx = Assets.getBusterSfx();
+
+
         this.game = game;
     }
 
@@ -126,7 +139,6 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
         if(isPressed.contains(new Integer(Input.Keys.SPACE))) {
             //swingDagger();
-
 
         }
 
@@ -204,6 +216,19 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
         if(Input.Keys.SPACE == keycode) {
            isAttacking = true;
+        }
+
+        if(Input.Keys.NUM_1 == keycode) {
+            daggerSfx.play(.5f);
+        }
+        if(Input.Keys.NUM_2 == keycode) {
+            hatchetSfx.play(.5f);
+        }
+        if(Input.Keys.NUM_3 == keycode) {
+            katanaSfx.play(.5f);
+        }
+        if(Input.Keys.NUM_4 == keycode) {
+            busterSfx.play(.5f);
         }
 
         return false;

@@ -31,7 +31,6 @@ public class SpawnGroup {
         /**
          *     *
          *
-         *     *
          *
          *     *
          */
@@ -60,23 +59,19 @@ public class SpawnGroup {
         switch(formation){
             case THREE_EVEN:
                 batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 7.5f));
-                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 3.75f));
-                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 11.25f));
+                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 3f, 11.25f));
                 break;
             case STAR:
                 batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 3.75f));
                 batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 11.25f));
-                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 2f, 7.5f));
                 batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 4f, 3.75f));
                 batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 4f, 11.25f));
                 break;
             case PYRAMID:
                 batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 7.5f));
-                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 3.75f));
                 batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset, 11.25f));
-                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 2f, 10f));
-                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 2f, 5f));
-                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 4f, 7.5f));
+                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 5f, 5f));
+                batch.enemyDefs.add(new EnemyDefinition(eType, getRandomAuraType(), baseXOffset + 10f, 7.5f));
                 break;
         }
 

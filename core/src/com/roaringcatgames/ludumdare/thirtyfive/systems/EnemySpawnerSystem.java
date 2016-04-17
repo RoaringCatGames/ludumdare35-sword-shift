@@ -119,11 +119,11 @@ public class EnemySpawnerSystem extends IteratingSystem {
                 e.add(ParticleEmitterComponent.create(eg)
                         .setShouldLoop(true)
                         .setZIndex(Z.aura)
-                        .setSpeed(1f, 3f)
+                        .setSpeed(2f, 10f)
                         .setSpawnRate(30f)
-                        .setAngleRange(-15f, 15f)
+                        .setAngleRange(0f, 360f)
                         .setShouldFade(true)
-                        .setParticleLifespans(2f, 5f)
+                        .setParticleLifespans(1f, 2f)
                         .setParticleImages(regions));
 
                 group.entities.add(e);

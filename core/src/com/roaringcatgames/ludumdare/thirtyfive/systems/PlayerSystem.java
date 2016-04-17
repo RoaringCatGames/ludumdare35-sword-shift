@@ -6,7 +6,6 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.roaringcatgames.kitten2d.ashley.components.*;
@@ -102,10 +101,10 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 .addBound(new Bound(new Circle(0f, 0f, 0.5f), 2f, 0f)));
             player.add(ParticleEmitterComponent.create(engine)
                 .setParticleImages(Assets.getPurpleParticles())
-                .setParticleLifespans(1f, 4f)
+                .setParticleLifespans(1f, 2f)
                 .setSpawnRate(50f)
                 .setShouldFade(true)
-                .setAngleRange(-45f, 45f)
+                .setAngleRange(0f, 360f)
                 .setDuration(10f)
                 .setShouldLoop(true)
                 .setSpeed(2f, 10f)
@@ -213,11 +212,11 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         if(Input.Keys.SHIFT_LEFT == keycode) {
             PlayerComponent pc = pm.get(player);
             ParticleEmitterComponent pec = pem.get(player);
-            if(pc.transformType == AuraType.YELLOW){
-                pc.transformType = AuraType.PURPLE;
+            if(pc.auraType == AuraType.YELLOW){
+                pc.auraType = AuraType.PURPLE;
                 pec.setParticleImages(Assets.getPurpleParticles());
             }else{
-                pc.transformType = AuraType.YELLOW;
+                pc.auraType = AuraType.YELLOW;
                 pec.setParticleImages(Assets.getYellowParticles());
             }
         }

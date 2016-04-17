@@ -13,6 +13,7 @@ import com.roaringcatgames.ludumdare.thirtyfive.Animations;
 import com.roaringcatgames.ludumdare.thirtyfive.App;
 import com.roaringcatgames.ludumdare.thirtyfive.Assets;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
+import com.roaringcatgames.ludumdare.thirtyfive.systems.EnemySpawnerSystem;
 
 /**
  * Created by barry on 4/16/16 @ 3:36 PM.
@@ -34,12 +35,14 @@ public class GameScreen extends LazyInitScreen{
 
         RenderingSystem renderer = new RenderingSystem(game.getBatch(), App.PPM);
 
+        engine.addSystem(new AnimationSystem());
         engine.addSystem(new MovementSystem());
         engine.addSystem(new BoundsSystem());
         engine.addSystem(new MultiBoundsSystem());
         engine.addSystem(new RemainInBoundsSystem(minBounds, maxBounds));
         engine.addSystem(new FadingSystem());
         engine.addSystem(new ParticleSystem());
+        engine.addSystem(new EnemySpawnerSystem(renderer.getCamera(), 1f));
 
         engine.addSystem(renderer);
         engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));

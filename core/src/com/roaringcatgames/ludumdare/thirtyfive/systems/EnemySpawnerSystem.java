@@ -60,8 +60,8 @@ public class EnemySpawnerSystem extends IteratingSystem {
                     .setLooping(true));
 
                 float xVelocity = -1f;
-                float width = 1f;
-                float height = 2f;
+                float width = 2f;
+                float height = 4f;
                 float health = Health.rat;
                 float dmg = Damage.rat;
                 switch(def.enemyType){

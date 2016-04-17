@@ -34,7 +34,7 @@ public class Animations {
 
 
     public static void init(){
-        testAnimation = new Animation(1f/6f, Assets.getTestFrames());
+        testAnimation = new Animation(1f/12f, Assets.getTestFrames());
 
         ratWalking = new Animation(1f/13f, Assets.getRatWalkingRegions());
         ratAttacking = new Animation(1f/6f, Assets.getRatAttackRegions());
@@ -53,7 +53,7 @@ public class Animations {
         trollDying = new Animation(1f/6f, Assets.getTestFrames());
 
         loading = new Animation(1f / 16f, Assets.getLoadingFrames());
-        dagger = new Animation(1f / 6f, Assets.getDaggerIdleFrames());
+        dagger = new Animation(1f / 12f, Assets.getDaggerIdleFrames());
         hatchet = new Animation(1f/6f, Assets.getHatchetIdleFrames());
         sword = new Animation(1f/6f, Assets.getSwordIdleFrames());
         hammer = new Animation(1f/6f, Assets.getHammerIdleFrames());

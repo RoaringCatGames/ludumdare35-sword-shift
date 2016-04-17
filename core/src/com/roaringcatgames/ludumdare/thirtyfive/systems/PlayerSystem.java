@@ -113,13 +113,13 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 .addBound(new Bound(new Circle(0f, 0f, 0.5f), 2f, 0f)));
             player.add(ParticleEmitterComponent.create(engine)
                 .setParticleImages(Assets.getPurpleParticles())
-                .setParticleLifespans(1f, 2f)
+                .setParticleLifespans(0.3f, 0.5f)
                 .setSpawnRate(50f)
                 .setShouldFade(true)
                 .setAngleRange(0f, 360f)
                 .setDuration(10f)
                 .setShouldLoop(true)
-                .setSpeed(2f, 10f)
+                .setSpeed(4f, 5f)
                 .setZIndex(Z.aura));
 
             engine.addEntity(player);

@@ -25,6 +25,7 @@ public class EnemyAiSystem extends IteratingSystem {
     private ComponentMapper<TransformComponent> tm;
     private ComponentMapper<MoveToComponent> mtm;
     private ComponentMapper<StateComponent> sm;
+    private ComponentMapper<VelocityComponent> vm;
 
     public EnemyAiSystem(){
         super(Family.one(PlayerComponent.class, EnemyComponent.class).get());
@@ -35,6 +36,7 @@ public class EnemyAiSystem extends IteratingSystem {
         tm = ComponentMapper.getFor(TransformComponent.class);
         mtm = ComponentMapper.getFor(MoveToComponent.class);
         sm = ComponentMapper.getFor(StateComponent.class);
+        vm = ComponentMapper.getFor(VelocityComponent.class);
     }
 
     @Override
@@ -48,6 +50,7 @@ public class EnemyAiSystem extends IteratingSystem {
             MoveToComponent mtc = mtm.get(enemy);
             TransformComponent enemyPos = tm.get(enemy);
             StateComponent enemyState = sm.get(enemy);
+            VelocityComponent enemyVel = vm.get(enemy);
 
             if(enemyState.get() != "DYING") {
                 float xAdjust = K2MathUtil.getRandomInRange(-2f, 2f);
@@ -55,18 +58,14 @@ public class EnemyAiSystem extends IteratingSystem {
                 float x = playerPos.position.x + xAdjust;
                 float y = playerPos.position.y + yAdjust;
 
-                if (x >= enemyPos.position.x) {
+                if(playerPos.position.x == enemyPos.position.x){
+                    enemyVel.setSpeed(0f, enemyVel.speed.y);
+                }else if (playerPos.position.x > enemyPos.position.x) {
                     enemyPos.setScale(-1f * Math.abs(enemyPos.scale.x), enemyPos.scale.y);
+                    enemyVel.setSpeed(Math.abs(enemyVel.speed.x), enemyVel.speed.y);
                 } else {
                     enemyPos.setScale(Math.abs(enemyPos.scale.x), enemyPos.scale.y);
-                }
-
-                if (mtc != null) {
-                    mtc.setTarget(x, y);
-                } else {
-                    enemy.add(MoveToComponent.create(engine)
-                            .setTarget(x, y)
-                            .setSpeed(Speed.getSpeed(ec.enemyType)));
+                    enemyVel.setSpeed(-1f * Math.abs(enemyVel.speed.x), enemyVel.speed.y);
                 }
             }
         }

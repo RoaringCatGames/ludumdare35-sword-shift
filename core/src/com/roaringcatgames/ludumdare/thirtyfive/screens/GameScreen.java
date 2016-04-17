@@ -2,18 +2,18 @@ package com.roaringcatgames.ludumdare.thirtyfive.screens;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
-import com.roaringcatgames.kitten2d.ashley.components.*;
+import com.badlogic.gdx.math.Vector3;
+import com.roaringcatgames.kitten2d.ashley.components.BoundsComponent;
+import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
 import com.roaringcatgames.kitten2d.ashley.systems.*;
-import com.roaringcatgames.ludumdare.thirtyfive.Animations;
 import com.roaringcatgames.ludumdare.thirtyfive.App;
-import com.roaringcatgames.ludumdare.thirtyfive.Assets;
 import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
 import com.roaringcatgames.ludumdare.thirtyfive.systems.EnemySpawnerSystem;
+import com.roaringcatgames.ludumdare.thirtyfive.systems.PlayerSystem;
+
 
 /**
  * Created by barry on 4/16/16 @ 3:36 PM.
@@ -25,6 +25,8 @@ public class GameScreen extends LazyInitScreen{
 
     private Vector2 minBounds = new Vector2(0f, 0f);
     private Vector2 maxBounds = new Vector2(10000f, 20f);
+    private Vector3 playerPosition = new Vector3(3f, 3f, 1f);
+    private float initialScale = 1f;
     public GameScreen(IGameProcessor game){
         this.game = game;
     }
@@ -42,7 +44,10 @@ public class GameScreen extends LazyInitScreen{
         engine.addSystem(new RemainInBoundsSystem(minBounds, maxBounds));
         engine.addSystem(new FadingSystem());
         engine.addSystem(new ParticleSystem());
-        engine.addSystem(new EnemySpawnerSystem(renderer.getCamera(), 1f));
+        engine.addSystem(new EnemySpawnerSystem(renderer.getCamera()));
+        engine.addSystem(new PlayerSystem(playerPosition, initialScale, game));
+        engine.addSystem(new AnimationSystem());
+
 
         engine.addSystem(renderer);
         engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));

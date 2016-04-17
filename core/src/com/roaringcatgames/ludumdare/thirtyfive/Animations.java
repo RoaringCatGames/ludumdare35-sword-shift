@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
  */
 public class Animations {
 
+    private static Animation testAnimation;
+    private static Animation loading;
+    private static Animation dagger;
+
     private static Animation ratWalking;
     private static Animation ratAttacking;
     private static Animation ratDying;
@@ -35,14 +39,20 @@ public class Animations {
         trollAttacking = new Animation(1f/6f, Assets.getTestFrames());
         trollDying = new Animation(1f/6f, Assets.getTestFrames());
 
+        loading = new Animation(1f / 16f, Assets.getLoadingFrames());
+        dagger = new Animation(1f / 6f, Assets.getDaggerIdleFrames());
     }
 
-    private static Animation testAnimation;
 
     public static Animation getTestAnimation(){
         return testAnimation;
     }
-
+    public static Animation getLoadingAnimation(){
+        return loading;
+    }
+    public static Animation getDaggerIdleAnimation(){
+        return dagger;
+    }
 
     public static Animation getRatWalking(){
         return ratWalking;
@@ -73,5 +83,7 @@ public class Animations {
     public static Animation getTrollDying(){
         return trollDying ;
     }
+
+
 
 }

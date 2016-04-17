@@ -38,6 +38,10 @@ public class Assets {
         return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/dagger-idle");
     }
 
+    public static Array<TextureAtlas.AtlasRegion> getDaggerIdleFrames(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("dagger-idle");
+    }
+
 
 
     private static Class<TextureAtlas> TEXTURE_ATLAS = TextureAtlas.class;

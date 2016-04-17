@@ -4,9 +4,11 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.components.*;
+import com.roaringcatgames.ludumdare.thirtyfive.Assets;
 import com.roaringcatgames.ludumdare.thirtyfive.components.EnemyComponent;
 import com.roaringcatgames.ludumdare.thirtyfive.components.PlayerComponent;
 import com.roaringcatgames.ludumdare.thirtyfive.data.EnemyType;
@@ -27,6 +29,11 @@ public class AttackResolutionSystem extends IteratingSystem {
     private ComponentMapper<DamageComponent> dm;
     private ComponentMapper<StateComponent> sm;
 
+    private Sound daggerSfx;
+    private Sound hatchetSfx;
+    private Sound katanaSfx;
+    private Sound busterSfx;
+
     public AttackResolutionSystem(){
         super(Family.one(PlayerComponent.class, EnemyComponent.class).get());
 
@@ -38,17 +45,27 @@ public class AttackResolutionSystem extends IteratingSystem {
         hm = ComponentMapper.getFor(HealthComponent.class);
         dm = ComponentMapper.getFor(DamageComponent.class);
         sm = ComponentMapper.getFor(StateComponent.class);
+
+        daggerSfx = Assets.getDaggerSfx();
+        hatchetSfx = Assets.getHatchetSfx();
+        katanaSfx = Assets.getKatanaSfx();
+        busterSfx = Assets.getBusterSfx();
     }
+
+    private float lastSfxTime = 0f;
+    private float elapsedTime = 0f;
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        elapsedTime += deltaTime;
 
         PlayerComponent pc = pm.get(player);
         DamageComponent playerDamage = dm.get(player);
         MultiBoundsComponent playerBounds = mbm.get(player);
         BoundsComponent playerOuterBounds = bm.get(player);
         if(pc.isAttacking) {
+            boolean didHit = false;
             for (Entity e : enemies) {
                 EnemyComponent ec = em.get(e);
                 HealthComponent enemyHealth = hm.get(e);
@@ -68,7 +85,8 @@ public class AttackResolutionSystem extends IteratingSystem {
                         }
                     }
 
-                    if(pc.auraType != ec.auraType) {
+                    if(pc.auraType != ec.auraType && hitCount > 0f) {
+                        didHit = true;
                         enemyHealth.health = Math.max(0f, enemyHealth.health - (hitCount * playerDamage.dps * deltaTime));
                     }else{
                         enemyHealth.health = Math.min(enemyHealth.maxHealth, enemyHealth.health + (hitCount * playerDamage.dps * deltaTime));
@@ -82,6 +100,12 @@ public class AttackResolutionSystem extends IteratingSystem {
                         e.remove(VelocityComponent.class);
                     }
                 }
+            }
+
+
+            if(didHit && (elapsedTime - lastSfxTime) >= 0.3f){
+                daggerSfx.play(1f);
+                lastSfxTime = elapsedTime;
             }
         }
 

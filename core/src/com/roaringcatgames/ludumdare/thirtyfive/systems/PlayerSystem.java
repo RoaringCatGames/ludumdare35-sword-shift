@@ -91,14 +91,18 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                     .setOpacity(1f)
                     .setPosition(10f, 10f, Z.player));
             player.add(BoundsComponent.create(engine)
-                    .setBounds(3f, 3f, 1f, 1f));
+                    .setBounds(3f, 3f, 4.375f, 3.4f));
             player.add(StateComponent.create(engine)
-                    .set("DEFAULT")
+                    .set("HATCHET_IDLE")
                     .setLooping(true));
             player.add(TextureComponent.create(engine));
             player.add(AnimationComponent.create(engine)
                     .addAnimation("DEFAULT", Animations.getTestAnimation())
-                    .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation()));
+                    .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation())
+                    .addAnimation("HATCHET_IDLE", Animations.getHatchetIdleAnimation())
+                    .addAnimation("HAMMER_IDLE", Animations.getHammerIdleAnimation())
+                    .addAnimation("KATANA_IDLE", Animations.getSwordIdleAnimation())
+                    .addAnimation("BUSTER_IDLE", Animations.getBusterIdleAnimation()));
 
             player.add(HealthComponent.create(engine)
                 .setHealth(Health.player).setMaxHealth(Health.player));
@@ -109,13 +113,13 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 .addBound(new Bound(new Circle(0f, 0f, 0.5f), 2f, 0f)));
             player.add(ParticleEmitterComponent.create(engine)
                 .setParticleImages(Assets.getPurpleParticles())
-                .setParticleLifespans(1f, 2f)
+                .setParticleLifespans(0.3f, 0.5f)
                 .setSpawnRate(50f)
                 .setShouldFade(true)
                 .setAngleRange(0f, 360f)
                 .setDuration(10f)
                 .setShouldLoop(true)
-                .setSpeed(2f, 10f)
+                .setSpeed(4f, 5f)
                 .setZIndex(Z.aura));
 
             engine.addEntity(player);
@@ -149,7 +153,6 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         }
 
         if(isPressed.contains(new Integer(Input.Keys.SPACE))) {
-            //swingDagger();
 
         }
 
@@ -159,41 +162,6 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 pc.isAttacking = false;
 
             }
-//            //get un-finished rotation
-//            float initRotation = tc.rotation;
-//            boolean doneAnimating = true;
-//            RotateTo rotation = null;
-//            for(int i =0; i < rtc.Rotations.size; i++){
-//                if(!rtc.Rotations.get(i).isFinished) {
-//                    rotation = rtc.Rotations.get(i);
-//                    doneAnimating = false;
-//                    break;
-//                }
-//            }
-//
-//
-//            if(doneAnimating) {
-//                //return to idle
-//
-//                swingDagger(0.0f);
-//                //reset dagger animations
-//                for(int i = 0; i < rtc.Rotations.size; i++){
-//                    rtc.Rotations.get(i).isFinished = false;
-//                }
-//            }else {
-//                //do the rotation
-//                boolean isAtTarget = false;
-//                float newRotation = initRotation + rotation.rotationSpeed;
-//                if (rotation.rotationSpeed < 0f && newRotation <= rotation.targetRotation) {
-//                    swingDagger(Math.max(newRotation, rotation.targetRotation));
-//                    rotation.isFinished = true;
-//                } else if (rotation.rotationSpeed > 0f && newRotation >= rotation.targetRotation) {
-//                    swingDagger(Math.min(newRotation, rotation.targetRotation));
-//                    rotation.isFinished = true;
-//                } else {
-//                    swingDagger(initRotation + rotation.rotationSpeed);
-//                }
-//            }
         }
 
         //decelerate
@@ -234,10 +202,38 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         if(Input.Keys.SPACE == keycode && !pc.isAttacking) {
 
             pc.isAttacking = true;
-            player.add(RotateToComponent.create(getEngine())
-                    .addRotateTo(90f, 600f)
-                    .addRotateTo(-120f, -900f)
-                    .addRotateTo(0f, 3000f));
+            switch(pc.weaponType) {
+                case DAGGER :
+                    player.add(RotateToComponent.create(getEngine())
+                        .addRotateTo(90f, 600f)
+                        .addRotateTo(-120f, -900f)
+                        .addRotateTo(0f, 3000f));
+                    break;
+                case HATCHET:
+                    player.add(RotateToComponent.create(getEngine())
+                            .addRotateTo(90f, 600f)
+                            .addRotateTo(-120f, -900f)
+                            .addRotateTo(0f, 3000f));
+                    break;
+                case HAMMER:
+                    player.add(RotateToComponent.create(getEngine())
+                            .addRotateTo(90f, 600f)
+                            .addRotateTo(-120f, -900f)
+                            .addRotateTo(0f, 3000f));
+                    break;
+                case KATANA:
+                    player.add(RotateToComponent.create(getEngine())
+                            .addRotateTo(90f, 600f)
+                            .addRotateTo(-120f, -900f)
+                            .addRotateTo(0f, 3000f));
+                    break;
+                case BUSTER:
+                    player.add(RotateToComponent.create(getEngine())
+                            .addRotateTo(90f, 600f)
+                            .addRotateTo(-120f, -900f)
+                            .addRotateTo(0f, 3000f));
+                    break;
+            }
 
         }
 
@@ -295,9 +291,5 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-    }
-    /*HELPER FUNCTIONS*/
-    public void swingDagger(float degree){
-        player.getComponent(TransformComponent.class).setRotation(degree);
     }
 }

@@ -15,12 +15,14 @@ public class SpawnGroup {
         if(spawns == null){
             spawns = new Array<>();
             spawns.add(generateBatch(45f, 0f, EnemyType.RAT, Formation.THREE_EVEN));
-            spawns.add(generateBatch(55f, 0f, EnemyType.RAT, Formation.STAR));
-            spawns.add(generateBatch(65f, 0f, EnemyType.RAT, Formation.PYRAMID));
-            spawns.add(generateBatch(85f, 0f, EnemyType.BEAR, Formation.THREE_EVEN));
-            spawns.add(generateBatch(100f, 0f, EnemyType.BEAR, Formation.STAR));
-            spawns.add(generateBatch(45f, 0f, EnemyType.BEAR, Formation.PYRAMID));
-            spawns.add(generateBatch(45f, 0f, EnemyType.TROLL, Formation.THREE_EVEN));
+            spawns.add(generateBatch(85f, 0f, EnemyType.RAT, Formation.STAR));
+            spawns.add(generateBatch(125f, 0f, EnemyType.RAT, Formation.PYRAMID));
+            spawns.add(generateBatch(165f, 0f, EnemyType.RAT, Formation.THREE_EVEN));
+            spawns.add(generateBatch(205f, 0f, EnemyType.RAT, Formation.STAR));
+            spawns.add(generateBatch(245f, 0f, EnemyType.RAT, Formation.PYRAMID));
+            spawns.add(generateBatch(285f, 0f, EnemyType.RAT, Formation.THREE_EVEN));
+            spawns.add(generateBatch(325, 0f, EnemyType.RAT, Formation.PYRAMID));
+            spawns.add(generateBatch(365f, 0f, EnemyType.RAT, Formation.THREE_EVEN));
         }
 
         return spawns;

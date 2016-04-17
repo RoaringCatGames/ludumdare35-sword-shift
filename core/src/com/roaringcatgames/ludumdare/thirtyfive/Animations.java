@@ -13,7 +13,7 @@ public class Animations {
     private static Animation dagger;
     private static Animation hatchet;
     private static Animation sword;
-    private static Animation hamer;
+    private static Animation hammer;
     private static Animation buster;
 
     private static Animation ratWalking;
@@ -56,7 +56,7 @@ public class Animations {
         dagger = new Animation(1f / 6f, Assets.getDaggerIdleFrames());
         hatchet = new Animation(1f/6f, Assets.getHatchetIdleFrames());
         sword = new Animation(1f/6f, Assets.getSwordIdleFrames());
-        hamer = new Animation(1f/6f, Assets.getHammerIdleFrames());
+        hammer = new Animation(1f/6f, Assets.getHammerIdleFrames());
         buster = new Animation(1f/6f, Assets.getBusterIdleFrames());
     }
 
@@ -69,6 +69,18 @@ public class Animations {
     }
     public static Animation getDaggerIdleAnimation(){
         return dagger;
+    }
+    public static Animation getHatchetIdleAnimation(){
+        return hatchet;
+    }
+    public static Animation getSwordIdleAnimation(){
+        return sword;
+    }
+    public static Animation getHammerIdleAnimation(){
+        return hammer;
+    }
+    public static Animation getBusterIdleAnimation(){
+        return buster;
     }
 
     public static Animation getRatWalking(){
@@ -110,6 +122,7 @@ public class Animations {
     public static Animation getTrollDying(){
         return trollDying ;
     }
+
 
 
 

@@ -44,11 +44,19 @@ public class Assets {
         return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("dagger-idle");
     }
 
-    public static TextureAtlas.AtlasRegion getYellowParticle(){
-        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-yellow");
+    private static Array<TextureAtlas.AtlasRegion> purpleParticles = new Array<>();
+    private static Array<TextureAtlas.AtlasRegion> yellowParticles = new Array<>();
+    public static Array<TextureAtlas.AtlasRegion> getYellowParticles(){
+        if(purpleParticles.size < 1) {
+            purpleParticles.add(am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-yellow"));
+        }
+        return purpleParticles;
     }
-    public static TextureAtlas.AtlasRegion getPurpleParticle(){
-        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-purple");
+    public static Array<TextureAtlas.AtlasRegion> getPurpleParticles(){
+        if(yellowParticles.size < 1) {
+            yellowParticles.add(am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-purple"));
+        }
+        return yellowParticles;
     }
 
     public static TextureAtlas.AtlasRegion getGrassBack1(){
@@ -71,6 +79,10 @@ public class Assets {
     }
 
 
+    public static Array<TextureAtlas.AtlasRegion> getRatWalkingRegions(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-walk");
+    }
+
     public static BitmapFont getFont32(){
         return am.get(COURIER_FONT_32, BITMAP_FONT);
     }
@@ -83,10 +95,50 @@ public class Assets {
     private static Class<BitmapFont> BITMAP_FONT = BitmapFont.class;
     private static Class<Sound> SOUND = Sound.class;
 
+    /////////////////
+    //SFX
+    /////////////////
+    public static Sound getDaggerSfx(){
+        return am.get(DAGGER_HIT_SFX);
+    }
+
+    public static Sound getHatchetSfx(){
+        return am.get(HATCHET_HIT_SFX);
+    }
+
+    public static Sound getKatanaSfx(){
+        return am.get(KATANA_HIT_SFX);
+    }
+
+    public static Sound getBusterSfx(){
+        return am.get(BUSTER_HIT_SFX);
+    }
+
+    public static Sound getBearSfx(){
+        return am.get(BEAR_ENEMY_SFX);
+    }
+
+    public static Sound getRatSfx(){
+        return am.get(RAT_ENEMY_SFX);
+    }
+    public static Sound getTrollSfx(){
+        return am.get(TROLL_ENEMY_SFX);
+    }
+
+
     private static final String COURIER_FONT_32 = "fonts/courier-new-bold-32.fnt";
     private static final String LOADING_ATLAS = "animations/loading.atlas";
     private static final String ANI_ATLAS = "animations/animations.atlas";
     private static final String SPRITE_ATLAS = "sprites/sprites.atlas";
+
+    private static final String DAGGER_HIT_SFX = "sfx/Dagger.wav";
+    private static final String HATCHET_HIT_SFX = "sfx/hatchet.wav";
+    private static final String KATANA_HIT_SFX = "sfx/katana_sword.wav";
+    private static final String BUSTER_HIT_SFX = "sfx/big_buster.wav";
+
+    private static final String BEAR_ENEMY_SFX = "sfx/bear.wav";
+    private static final String RAT_ENEMY_SFX = "sfx/rat.wav";
+    private static final String TROLL_ENEMY_SFX = "sfx.troll.wav";
 
 
 }

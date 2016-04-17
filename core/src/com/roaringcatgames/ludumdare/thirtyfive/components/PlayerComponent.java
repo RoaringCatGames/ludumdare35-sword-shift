@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Pool;
 public class PlayerComponent implements Component,Pool.Poolable{
 
     public AuraType transformType = AuraType.PURPLE;
+    public boolean isAttacking = false;
     public int energyLevel = 0;
 
     public static PlayerComponent create(Engine engine){
@@ -23,6 +24,9 @@ public class PlayerComponent implements Component,Pool.Poolable{
 
     @Override
     public void reset() {
+        energyLevel = 0;
+        isAttacking = false;
+        transformType = AuraType.PURPLE;
 
     }
 }

@@ -34,7 +34,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     private ComponentMapper<VelocityComponent> vm;
     private ComponentMapper<StateComponent> sm;
     private ComponentMapper<TransformComponent> tm;
-    private boolean isAttacking;
+    //private boolean isAttacking;
     private ComponentMapper<RotateToComponent> rtm;
 
     private ArrayList<Integer> isPressed = new ArrayList();
@@ -104,6 +104,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             init();
         }
 
+        PlayerComponent pc = pm.get(player);
         VelocityComponent vc = vm.get(player);
         TransformComponent tc = tm.get(player);
         RotateToComponent rtc = rtm.get(player);
@@ -127,7 +128,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         }
 
         //attack state
-        if(isAttacking){
+        if(pc.isAttacking){
 
             //get un-finished rotation
             float initRotation = tc.rotation;
@@ -144,7 +145,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
             if(doneAnimating) {
                 //return to idle
-                isAttacking = false;
+                pc.isAttacking = false;
                 swingDagger(0.0f);
             }else {
                 //do the rotation
@@ -195,7 +196,8 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         }
 
         if(Input.Keys.SPACE == keycode) {
-           isAttacking = true;
+            pm.get(player).isAttacking = true;
+
         }
 
         return false;

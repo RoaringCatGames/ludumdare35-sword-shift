@@ -18,6 +18,7 @@ import com.roaringcatgames.ludumdare.thirtyfive.components.EnemyComponent;
 import com.roaringcatgames.ludumdare.thirtyfive.data.EnemyDefinition;
 import com.roaringcatgames.ludumdare.thirtyfive.data.SpawnBatch;
 import com.roaringcatgames.ludumdare.thirtyfive.data.SpawnGroup;
+import org.w3c.dom.css.Rect;
 
 import java.util.Comparator;
 
@@ -65,6 +66,8 @@ public class EnemySpawnerSystem extends IteratingSystem {
                     .setLooping(true));
 
                 float xVelocity = -5f;
+                float width = 1f;
+                float height = 2f;
                 switch(def.enemyType){
                     case RAT:
                          e.add(AnimationComponent.create(eg)
@@ -78,6 +81,8 @@ public class EnemySpawnerSystem extends IteratingSystem {
                                 .addAnimation("ATTACKING", Animations.getBearAttacking())
                                 .addAnimation("DYING", Animations.getBearDying()));
                         xVelocity = -3f;
+                        width = 3f;
+                        height = 2.5f;
                         break;
                     case TROLL:
                         e.add(AnimationComponent.create(eg)
@@ -85,10 +90,15 @@ public class EnemySpawnerSystem extends IteratingSystem {
                                 .addAnimation("ATTACKING", Animations.getTrollAttacking())
                                 .addAnimation("DYING", Animations.getTrollDying()));
                         xVelocity = -2f;
+                        width = 4f;
+                        height = 4f;
                         break;
                 }
                 e.add(VelocityComponent.create(engine)
                     .setSpeed(xVelocity, 0f));
+
+                e.add(BoundsComponent.create(engine)
+                    .setBounds(0f, 0f, width, height));
 
                 Array<TextureAtlas.AtlasRegion> regions = new Array<>();
 

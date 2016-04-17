@@ -29,6 +29,7 @@ public class AttackResolutionSystem extends IteratingSystem {
     public AttackResolutionSystem(){
         super(Family.one(PlayerComponent.class, EnemyComponent.class).get());
 
+        enemies = new Array<>();
         pm = ComponentMapper.getFor(PlayerComponent.class);
         em = ComponentMapper.getFor(EnemyComponent.class);
         bm = ComponentMapper.getFor(BoundsComponent.class);

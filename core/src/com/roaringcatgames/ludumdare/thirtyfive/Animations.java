@@ -27,7 +27,7 @@ public class Animations {
     public static void init(){
         testAnimation = new Animation(1f/6f, Assets.getTestFrames());
 
-        ratWalking = new Animation(1f/6f, Assets.getTestFrames());
+        ratWalking = new Animation(1f/13f, Assets.getRatWalkingRegions());
         ratAttacking = new Animation(1f/6f, Assets.getTestFrames());
         ratDying = new Animation(1f/6f, Assets.getTestFrames());
 

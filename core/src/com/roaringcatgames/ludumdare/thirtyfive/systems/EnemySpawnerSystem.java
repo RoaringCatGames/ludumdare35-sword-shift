@@ -1,24 +1,17 @@
 package com.roaringcatgames.ludumdare.thirtyfive.systems;
 
 import com.badlogic.ashley.core.*;
-import com.badlogic.ashley.systems.IntervalSystem;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Pool;
-import com.roaringcatgames.kitten2d.ashley.K2MathUtil;
 import com.roaringcatgames.kitten2d.ashley.components.*;
-import com.roaringcatgames.ludumdare.thirtyfive.Animations;
-import com.roaringcatgames.ludumdare.thirtyfive.Assets;
-import com.roaringcatgames.ludumdare.thirtyfive.Z;
+import com.roaringcatgames.ludumdare.thirtyfive.*;
 import com.roaringcatgames.ludumdare.thirtyfive.components.AuraType;
 import com.roaringcatgames.ludumdare.thirtyfive.components.EnemyComponent;
 import com.roaringcatgames.ludumdare.thirtyfive.data.EnemyDefinition;
 import com.roaringcatgames.ludumdare.thirtyfive.data.SpawnBatch;
 import com.roaringcatgames.ludumdare.thirtyfive.data.SpawnGroup;
-import org.w3c.dom.css.Rect;
 
 import java.util.Comparator;
 
@@ -58,6 +51,7 @@ public class EnemySpawnerSystem extends IteratingSystem {
             EnemyGroup group = new EnemyGroup(batch.triggerXPosition);
             for(EnemyDefinition def:batch.enemyDefs){
                 Entity e = eg.createEntity();
+
                 e.add(TransformComponent.create(eg)
                     .setPosition(def.initialOffset.x, def.initialOffset.y, Z.enemy));
                 e.add(TextureComponent.create(eg));
@@ -65,9 +59,11 @@ public class EnemySpawnerSystem extends IteratingSystem {
                     .set("DEFAULT")
                     .setLooping(true));
 
-                float xVelocity = -5f;
+                float xVelocity = -1f;
                 float width = 1f;
                 float height = 2f;
+                float health = Health.rat;
+                float dmg = Damage.rat;
                 switch(def.enemyType){
                     case RAT:
                          e.add(AnimationComponent.create(eg)
@@ -80,33 +76,45 @@ public class EnemySpawnerSystem extends IteratingSystem {
                                 .addAnimation("DEFAULT", Animations.getBearWalking())
                                 .addAnimation("ATTACKING", Animations.getBearAttacking())
                                 .addAnimation("DYING", Animations.getBearDying()));
-                        xVelocity = -3f;
+                        xVelocity = -0.5f;
                         width = 3f;
                         height = 2.5f;
+                        health = Health.bear;
+                        dmg = Damage.bear;
                         break;
                     case TROLL:
                         e.add(AnimationComponent.create(eg)
                                 .addAnimation("DEFAULT", Animations.getTrollWalking())
                                 .addAnimation("ATTACKING", Animations.getTrollAttacking())
                                 .addAnimation("DYING", Animations.getTrollDying()));
-                        xVelocity = -2f;
+                        xVelocity = -0.25f;
                         width = 4f;
                         height = 4f;
+                        health = Health.troll;
+                        dmg = Damage.troll;
                         break;
                 }
+                e.add(HealthComponent.create(engine)
+                    .setHealth(health).setMaxHealth(health));
+                e.add(DamageComponent.create(engine)
+                    .setDPS(dmg));
+
                 e.add(VelocityComponent.create(engine)
                     .setSpeed(xVelocity, 0f));
 
                 e.add(BoundsComponent.create(engine)
                     .setBounds(0f, 0f, width, height));
 
-                Array<TextureAtlas.AtlasRegion> regions = new Array<>();
+                Array<TextureAtlas.AtlasRegion> regions;
 
                 if(def.auraType == AuraType.YELLOW) {
-                    regions.add(Assets.getYellowParticle());
+                    regions = Assets.getYellowParticles();
                 }else{
-                    regions.add(Assets.getPurpleParticle());
+                    regions = Assets.getPurpleParticles();
                 }
+                e.add(EnemyComponent.create(engine)
+                    .setAura(def.auraType)
+                    .setEnemyType(def.enemyType));
                 //Add Particle System based on Enemy Type
                 e.add(ParticleEmitterComponent.create(eg)
                         .setShouldLoop(true)

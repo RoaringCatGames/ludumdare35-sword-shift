@@ -3,21 +3,17 @@ package com.roaringcatgames.ludumdare.thirtyfive.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.utils.Array;
 import com.roaringcatgames.kitten2d.ashley.components.*;
-import com.roaringcatgames.ludumdare.thirtyfive.Animations;
-import com.roaringcatgames.ludumdare.thirtyfive.IGameProcessor;
-import com.roaringcatgames.ludumdare.thirtyfive.Z;
+import com.roaringcatgames.ludumdare.thirtyfive.*;
+import com.roaringcatgames.ludumdare.thirtyfive.components.AuraType;
 import com.roaringcatgames.ludumdare.thirtyfive.components.PlayerComponent;
 import com.roaringcatgames.ludumdare.thirtyfive.components.RotateTo;
 import com.roaringcatgames.ludumdare.thirtyfive.components.RotateToComponent;
-import com.sun.glass.ui.EventLoop;
 
 import java.util.ArrayList;
 
@@ -34,12 +30,12 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     private ComponentMapper<VelocityComponent> vm;
     private ComponentMapper<StateComponent> sm;
     private ComponentMapper<TransformComponent> tm;
+    private ComponentMapper<ParticleEmitterComponent> pem;
+
     //private boolean isAttacking;
     private ComponentMapper<RotateToComponent> rtm;
 
     private ArrayList<Integer> isPressed = new ArrayList();
-
-
 
     public PlayerSystem(Vector3 initialPosition, float initialScale, IGameProcessor game){
         super(Family.all(PlayerComponent.class).get());
@@ -50,6 +46,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         this.sm = ComponentMapper.getFor(StateComponent.class);
         this.tm = ComponentMapper.getFor(TransformComponent.class);
         this.rtm = ComponentMapper.getFor(RotateToComponent.class);
+        this.pem = ComponentMapper.getFor(ParticleEmitterComponent.class);
         this.game = game;
     }
 
@@ -75,7 +72,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             player.add(PlayerComponent.create(engine));
             player.add(RemainInBoundsComponent.create(engine));
             player.add(VelocityComponent.create(engine)
-                .setSpeed(0f,0f));
+                .setSpeed(0f, 0f));
             player.add(TransformComponent.create(engine)
                     .setOpacity(1f)
                     .setPosition(10f, 10f, Z.player));
@@ -91,6 +88,23 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             player.add(RotateToComponent.create(engine)
                     .addRotateTo(90f, 5f)
                     .addRotateTo(-120f, -15f));
+            player.add(HealthComponent.create(engine)
+                .setHealth(Health.player).setMaxHealth(Health.player));
+            player.add(DamageComponent.create(engine).setDPS(Damage.player_dagger));
+            player.add(MultiBoundsComponent.create(engine)
+                .addBound(new Bound(new Circle(0f, 0f, 1f), 0f, 0f))
+                .addBound(new Bound(new Circle(0f, 0f, 1f), 1f, 0f))
+                .addBound(new Bound(new Circle(0f, 0f, 0.5f), 2f, 0f)));
+            player.add(ParticleEmitterComponent.create(engine)
+                .setParticleImages(Assets.getPurpleParticles())
+                .setParticleLifespans(1f, 4f)
+                .setSpawnRate(50f)
+                .setShouldFade(true)
+                .setAngleRange(-45f, 45f)
+                .setDuration(10f)
+                .setShouldLoop(true)
+                .setSpeed(2f, 10f)
+                .setZIndex(Z.aura));
             engine.addEntity(player);
 
         }
@@ -191,12 +205,15 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     public boolean keyDown(int keycode) {
         isPressed.add(keycode);
         if(Input.Keys.SHIFT_LEFT == keycode) {
-            player.getComponent(StateComponent.class).set("DAGGER_IDLE");
-
-
-            StateComponent sc = player.getComponent(StateComponent.class);
-            AnimationComponent ac = player.getComponent(AnimationComponent.class);
-            ac.animations.get(sc.get()).isAnimationFinished(sc.time);
+            PlayerComponent pc = pm.get(player);
+            ParticleEmitterComponent pec = pem.get(player);
+            if(pc.transformType == AuraType.YELLOW){
+                pc.transformType = AuraType.PURPLE;
+                pec.setParticleImages(Assets.getPurpleParticles());
+            }else{
+                pc.transformType = AuraType.YELLOW;
+                pec.setParticleImages(Assets.getYellowParticles());
+            }
         }
 
         if(Input.Keys.SPACE == keycode) {

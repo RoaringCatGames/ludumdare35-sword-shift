@@ -44,11 +44,19 @@ public class Assets {
         return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("dagger-idle");
     }
 
-    public static TextureAtlas.AtlasRegion getYellowParticle(){
-        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-yellow");
+    private static Array<TextureAtlas.AtlasRegion> purpleParticles = new Array<>();
+    private static Array<TextureAtlas.AtlasRegion> yellowParticles = new Array<>();
+    public static Array<TextureAtlas.AtlasRegion> getYellowParticles(){
+        if(purpleParticles.size < 1) {
+            purpleParticles.add(am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-yellow"));
+        }
+        return purpleParticles;
     }
-    public static TextureAtlas.AtlasRegion getPurpleParticle(){
-        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-purple");
+    public static Array<TextureAtlas.AtlasRegion> getPurpleParticles(){
+        if(yellowParticles.size < 1) {
+            yellowParticles.add(am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("particles/aura-purple"));
+        }
+        return yellowParticles;
     }
 
     public static TextureAtlas.AtlasRegion getGrassBack1(){
@@ -70,6 +78,10 @@ public class Assets {
         return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/walkpath");
     }
 
+
+    public static Array<TextureAtlas.AtlasRegion> getRatWalkingRegions(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-walk");
+    }
 
     public static BitmapFont getFont32(){
         return am.get(COURIER_FONT_32, BITMAP_FONT);

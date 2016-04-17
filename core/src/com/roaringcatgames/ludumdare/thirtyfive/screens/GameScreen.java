@@ -49,6 +49,8 @@ public class GameScreen extends LazyInitScreen{
         engine.addSystem(new PlayerSystem(playerPosition, initialScale, game));
         engine.addSystem(new CameraSystem(renderer.getCamera(), 2f));
         engine.addSystem(new AnimationSystem());
+        engine.addSystem(new MoveToSystem());
+        engine.addSystem(new EnemyAiSystem());
         engine.addSystem(new RotateToSystem());
 
         engine.addSystem(new AttackResolutionSystem());

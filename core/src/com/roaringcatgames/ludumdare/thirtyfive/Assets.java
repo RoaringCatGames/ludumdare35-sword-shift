@@ -52,6 +52,18 @@ public class Assets {
     public static Array<TextureAtlas.AtlasRegion> getDaggerIdleFrames(){
         return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("dagger-idle");
     }
+    public static Array<TextureAtlas.AtlasRegion> getHatchetIdleFrames(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("hatchet-idle");
+    }
+    public static Array<TextureAtlas.AtlasRegion> getSwordIdleFrames(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("sword-idle");
+    }
+    public static Array<TextureAtlas.AtlasRegion> getHammerIdleFrames(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("hammer-idle");
+    }
+    public static Array<TextureAtlas.AtlasRegion> getBusterIdleFrames(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("buster-idle");
+    }
 
     private static Array<TextureAtlas.AtlasRegion> purpleParticles = new Array<>();
     private static Array<TextureAtlas.AtlasRegion> yellowParticles = new Array<>();
@@ -90,6 +102,23 @@ public class Assets {
 
     public static Array<TextureAtlas.AtlasRegion> getRatWalkingRegions(){
         return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-walk");
+    }
+    public static Array<TextureAtlas.AtlasRegion> getRatAltWalkingRegions(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-walk-a");
+    }
+
+    public static Array<TextureAtlas.AtlasRegion> getRatDyingRegions(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-death");
+    }
+    public static Array<TextureAtlas.AtlasRegion> getRatAltDyingRegions(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-death-a");
+    }
+
+    public static Array<TextureAtlas.AtlasRegion> getRatAttackRegions(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-attack");
+    }
+    public static Array<TextureAtlas.AtlasRegion> getRatAltAttackRegions(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-attack-a");
     }
 
     public static BitmapFont getFont32(){

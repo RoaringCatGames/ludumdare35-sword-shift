@@ -135,16 +135,16 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         VelocityComponent vc = vm.get(player);
         TransformComponent tc = tm.get(player);
         RotateToComponent rtc = rtm.get(player);
-        if(isPressed.contains(new Integer(Input.Keys.LEFT))) {
+        if(isPressed.contains(new Integer(Input.Keys.LEFT)) || isPressed.contains(new Integer(Input.Keys.A))) {
             vc.setSpeed(-10f, vc.speed.y);
         }
-        if(isPressed.contains(new Integer(Input.Keys.RIGHT))) {
+        if(isPressed.contains(new Integer(Input.Keys.RIGHT)) || isPressed.contains(new Integer(Input.Keys.D)) ) {
             vc.setSpeed(10f, vc.speed.y);
         }
-        if(isPressed.contains(new Integer(Input.Keys.UP))) {
+        if(isPressed.contains(new Integer(Input.Keys.UP)) || isPressed.contains(new Integer(Input.Keys.W))) {
             vc.setSpeed(vc.speed.x, 10f);
         }
-        if(isPressed.contains(new Integer(Input.Keys.DOWN))) {
+        if(isPressed.contains(new Integer(Input.Keys.DOWN)) || isPressed.contains(new Integer(Input.Keys.S))) {
             vc.setSpeed(vc.speed.x, -10f);
         }
 

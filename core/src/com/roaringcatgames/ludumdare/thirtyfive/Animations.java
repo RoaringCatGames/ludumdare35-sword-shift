@@ -11,10 +11,19 @@ public class Animations {
     private static Animation testAnimation;
     private static Animation loading;
     private static Animation dagger;
+    private static Animation hatchet;
+    private static Animation sword;
+    private static Animation hammer;
+    private static Animation buster;
 
     private static Animation ratWalking;
     private static Animation ratAttacking;
     private static Animation ratDying;
+
+    private static Animation ratAltWalking;
+    private static Animation ratAltAttacking;
+    private static Animation ratAltDying;
+
     private static Animation bearWalking;
     private static Animation bearAttacking;
     private static Animation bearDying;
@@ -28,8 +37,12 @@ public class Animations {
         testAnimation = new Animation(1f/6f, Assets.getTestFrames());
 
         ratWalking = new Animation(1f/13f, Assets.getRatWalkingRegions());
-        ratAttacking = new Animation(1f/6f, Assets.getTestFrames());
-        ratDying = new Animation(1f/6f, Assets.getTestFrames());
+        ratAttacking = new Animation(1f/6f, Assets.getRatAttackRegions());
+        ratDying = new Animation(1f/6f, Assets.getRatDyingRegions());
+
+        ratAltWalking = new Animation(1f/13f, Assets.getRatAltWalkingRegions());
+        ratAltAttacking = new Animation(1f/6f, Assets.getRatAltAttackRegions());
+        ratAltDying = new Animation(1f/6f, Assets.getRatAltDyingRegions());
 
         bearWalking = new Animation(1f/6f, Assets.getTestFrames());
         bearAttacking = new Animation(1f/6f, Assets.getTestFrames());
@@ -41,17 +54,33 @@ public class Animations {
 
         loading = new Animation(1f / 16f, Assets.getLoadingFrames());
         dagger = new Animation(1f / 6f, Assets.getDaggerIdleFrames());
+        hatchet = new Animation(1f/6f, Assets.getHatchetIdleFrames());
+        sword = new Animation(1f/6f, Assets.getSwordIdleFrames());
+        hammer = new Animation(1f/6f, Assets.getHammerIdleFrames());
+        buster = new Animation(1f/6f, Assets.getBusterIdleFrames());
     }
 
 
-    public static Animation getTestAnimation(){
-        return testAnimation;
-    }
     public static Animation getLoadingAnimation(){
         return loading;
     }
+    public static Animation getTestAnimation(){
+        return testAnimation;
+    }
     public static Animation getDaggerIdleAnimation(){
         return dagger;
+    }
+    public static Animation getHatchetIdleAnimation(){
+        return hatchet;
+    }
+    public static Animation getSwordIdleAnimation(){
+        return sword;
+    }
+    public static Animation getHammerIdleAnimation(){
+        return hammer;
+    }
+    public static Animation getBusterIdleAnimation(){
+        return buster;
     }
 
     public static Animation getRatWalking(){
@@ -62,6 +91,16 @@ public class Animations {
     }
     public static Animation getRatDying(){
         return ratDying ;
+    }
+
+    public static Animation getRatAltWalking(){
+        return ratAltWalking;
+    }
+    public static Animation getRatAltAttacking(){
+        return ratAltAttacking;
+    }
+    public static Animation getRatAltDying(){
+        return ratAltDying ;
     }
 
     public static Animation getBearWalking(){
@@ -83,6 +122,7 @@ public class Animations {
     public static Animation getTrollDying(){
         return trollDying ;
     }
+
 
 
 

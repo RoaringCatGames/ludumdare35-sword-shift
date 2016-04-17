@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.roaringcatgames.kitten2d.ashley.components.*;
@@ -34,6 +35,8 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
     //private boolean isAttacking;
     private ComponentMapper<RotateToComponent> rtm;
+
+    //private Sound
 
     private ArrayList<Integer> isPressed = new ArrayList();
 
@@ -87,7 +90,9 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                     .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation()));
             player.add(RotateToComponent.create(engine)
                     .addRotateTo(90f, 5f)
-                    .addRotateTo(-120f, -15f));
+                    .addRotateTo(-120f, -15f)
+                    .addRotateTo(0f, 30f));
+
             player.add(HealthComponent.create(engine)
                 .setHealth(Health.player).setMaxHealth(Health.player));
             player.add(DamageComponent.create(engine).setDPS(Damage.player_dagger));
@@ -105,6 +110,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 .setShouldLoop(true)
                 .setSpeed(2f, 10f)
                 .setZIndex(Z.aura));
+
             engine.addEntity(player);
 
         }

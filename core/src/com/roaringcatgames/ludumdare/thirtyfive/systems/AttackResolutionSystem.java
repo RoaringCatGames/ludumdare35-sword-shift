@@ -78,6 +78,8 @@ public class AttackResolutionSystem extends IteratingSystem {
                         pc.energyLevel += getEnergyAbsorb(ec.enemyType);
                         StateComponent es = sm.get(e);
                         es.set("DYING").setLooping(false);
+                        e.remove(MoveToComponent.class);
+                        e.remove(VelocityComponent.class);
                     }
                 }
             }

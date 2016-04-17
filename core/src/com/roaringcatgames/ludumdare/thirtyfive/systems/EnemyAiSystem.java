@@ -24,6 +24,7 @@ public class EnemyAiSystem extends IteratingSystem {
     private ComponentMapper<EnemyComponent> em;
     private ComponentMapper<TransformComponent> tm;
     private ComponentMapper<MoveToComponent> mtm;
+    private ComponentMapper<StateComponent> sm;
 
     public EnemyAiSystem(){
         super(Family.one(PlayerComponent.class, EnemyComponent.class).get());
@@ -33,6 +34,7 @@ public class EnemyAiSystem extends IteratingSystem {
         em = ComponentMapper.getFor(EnemyComponent.class);
         tm = ComponentMapper.getFor(TransformComponent.class);
         mtm = ComponentMapper.getFor(MoveToComponent.class);
+        sm = ComponentMapper.getFor(StateComponent.class);
     }
 
     @Override
@@ -45,24 +47,27 @@ public class EnemyAiSystem extends IteratingSystem {
             EnemyComponent ec = em.get(enemy);
             MoveToComponent mtc = mtm.get(enemy);
             TransformComponent enemyPos = tm.get(enemy);
+            StateComponent enemyState = sm.get(enemy);
 
-            float xAdjust = K2MathUtil.getRandomInRange(-2f, 2f);
-            float yAdjust = 0f; //K2MathUtil.getRandomInRange(-2f, 2f);
-            float x = playerPos.position.x + xAdjust;
-            float y = playerPos.position.y + yAdjust;
+            if(enemyState.get() != "DYING") {
+                float xAdjust = K2MathUtil.getRandomInRange(-2f, 2f);
+                float yAdjust = 0f; //K2MathUtil.getRandomInRange(-2f, 2f);
+                float x = playerPos.position.x + xAdjust;
+                float y = playerPos.position.y + yAdjust;
 
-            if(x >= enemyPos.position.x){
-                enemyPos.setScale(-1f * Math.abs(enemyPos.scale.x), enemyPos.scale.y);
-            }else{
-                enemyPos.setScale(Math.abs(enemyPos.scale.x), enemyPos.scale.y);
-            }
+                if (x >= enemyPos.position.x) {
+                    enemyPos.setScale(-1f * Math.abs(enemyPos.scale.x), enemyPos.scale.y);
+                } else {
+                    enemyPos.setScale(Math.abs(enemyPos.scale.x), enemyPos.scale.y);
+                }
 
-            if(mtc != null){
-                mtc.setTarget(x, y);
-            }else{
-                enemy.add(MoveToComponent.create(engine)
-                    .setTarget(x, y)
-                    .setSpeed(Speed.getSpeed(ec.enemyType)));
+                if (mtc != null) {
+                    mtc.setTarget(x, y);
+                } else {
+                    enemy.add(MoveToComponent.create(engine)
+                            .setTarget(x, y)
+                            .setSpeed(Speed.getSpeed(ec.enemyType)));
+                }
             }
         }
 

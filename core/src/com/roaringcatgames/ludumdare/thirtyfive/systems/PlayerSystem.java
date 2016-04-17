@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -35,6 +36,11 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     //private boolean isAttacking;
     private ComponentMapper<RotateToComponent> rtm;
 
+    private Sound daggerSfx;
+    private Sound hatchetSfx;
+    private Sound katanaSfx;
+    private Sound busterSfx;
+
     //private Sound
 
     private ArrayList<Integer> isPressed = new ArrayList();
@@ -48,6 +54,12 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         this.sm = ComponentMapper.getFor(StateComponent.class);
         this.tm = ComponentMapper.getFor(TransformComponent.class);
         this.rtm = ComponentMapper.getFor(RotateToComponent.class);
+
+        daggerSfx = Assets.getDaggerSfx();
+        hatchetSfx = Assets.getHatchetSfx();
+        katanaSfx = Assets.getKatanaSfx();
+        busterSfx = Assets.getBusterSfx();
+
         this.pem = ComponentMapper.getFor(ParticleEmitterComponent.class);
         this.game = game;
     }
@@ -87,10 +99,6 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             player.add(AnimationComponent.create(engine)
                     .addAnimation("DEFAULT", Animations.getTestAnimation())
                     .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation()));
-            player.add(RotateToComponent.create(engine)
-                    .addRotateTo(90f, 5f)
-                    .addRotateTo(-120f, -15f)
-                    .addRotateTo(0f, 30f));
 
             player.add(HealthComponent.create(engine)
                 .setHealth(Health.player).setMaxHealth(Health.player));
@@ -143,47 +151,49 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         if(isPressed.contains(new Integer(Input.Keys.SPACE))) {
             //swingDagger();
 
-
         }
 
         //attack state
         if(pc.isAttacking){
-
-            //get un-finished rotation
-            float initRotation = tc.rotation;
-            boolean doneAnimating = true;
-            RotateTo rotation = null;
-            for(int i =0; i < rtc.Rotations.size; i++){
-                if(!rtc.Rotations.get(i).isFinished) {
-                    rotation = rtc.Rotations.get(i);
-                    doneAnimating = false;
-                    break;
-                }
-            }
-
-
-            if(doneAnimating) {
-                //return to idle
+            if(!rtm.has(player)){
                 pc.isAttacking = false;
-                swingDagger(0.0f);
-                //reset dagger animations
-                for(int i = 0; i < rtc.Rotations.size; i++){
-                    rtc.Rotations.get(i).isFinished = false;
-                }
-            }else {
-                //do the rotation
-                boolean isAtTarget = false;
-                float newRotation = initRotation + rotation.rotationSpeed;
-                if (rotation.rotationSpeed < 0f && newRotation <= rotation.targetRotation) {
-                    swingDagger(Math.max(newRotation, rotation.targetRotation));
-                    rotation.isFinished = true;
-                } else if (rotation.rotationSpeed > 0f && newRotation >= rotation.targetRotation) {
-                    swingDagger(Math.min(newRotation, rotation.targetRotation));
-                    rotation.isFinished = true;
-                } else {
-                    swingDagger(initRotation + rotation.rotationSpeed);
-                }
+
             }
+//            //get un-finished rotation
+//            float initRotation = tc.rotation;
+//            boolean doneAnimating = true;
+//            RotateTo rotation = null;
+//            for(int i =0; i < rtc.Rotations.size; i++){
+//                if(!rtc.Rotations.get(i).isFinished) {
+//                    rotation = rtc.Rotations.get(i);
+//                    doneAnimating = false;
+//                    break;
+//                }
+//            }
+//
+//
+//            if(doneAnimating) {
+//                //return to idle
+//
+//                swingDagger(0.0f);
+//                //reset dagger animations
+//                for(int i = 0; i < rtc.Rotations.size; i++){
+//                    rtc.Rotations.get(i).isFinished = false;
+//                }
+//            }else {
+//                //do the rotation
+//                boolean isAtTarget = false;
+//                float newRotation = initRotation + rotation.rotationSpeed;
+//                if (rotation.rotationSpeed < 0f && newRotation <= rotation.targetRotation) {
+//                    swingDagger(Math.max(newRotation, rotation.targetRotation));
+//                    rotation.isFinished = true;
+//                } else if (rotation.rotationSpeed > 0f && newRotation >= rotation.targetRotation) {
+//                    swingDagger(Math.min(newRotation, rotation.targetRotation));
+//                    rotation.isFinished = true;
+//                } else {
+//                    swingDagger(initRotation + rotation.rotationSpeed);
+//                }
+//            }
         }
 
         //decelerate
@@ -220,10 +230,28 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 pec.setParticleImages(Assets.getYellowParticles());
             }
         }
+        PlayerComponent pc = pm.get(player);
+        if(Input.Keys.SPACE == keycode && !pc.isAttacking) {
 
-        if(Input.Keys.SPACE == keycode) {
-            pm.get(player).isAttacking = true;
+            pc.isAttacking = true;
+            player.add(RotateToComponent.create(getEngine())
+                    .addRotateTo(90f, 600f)
+                    .addRotateTo(-120f, -900f)
+                    .addRotateTo(0f, 3000f));
 
+        }
+
+        if(Input.Keys.NUM_1 == keycode) {
+            daggerSfx.play(.5f);
+        }
+        if(Input.Keys.NUM_2 == keycode) {
+            hatchetSfx.play(.5f);
+        }
+        if(Input.Keys.NUM_3 == keycode) {
+            katanaSfx.play(.5f);
+        }
+        if(Input.Keys.NUM_4 == keycode) {
+            busterSfx.play(.5f);
         }
 
         return false;

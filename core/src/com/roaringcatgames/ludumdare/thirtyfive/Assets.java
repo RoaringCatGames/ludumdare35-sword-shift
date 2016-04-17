@@ -23,6 +23,15 @@ public class Assets {
         am.load(ANI_ATLAS, TEXTURE_ATLAS);
         am.load(SPRITE_ATLAS, TEXTURE_ATLAS);
 
+        am.load(DAGGER_HIT_SFX, SOUND);
+        am.load(HATCHET_HIT_SFX, SOUND);
+        am.load(KATANA_HIT_SFX, SOUND);
+        am.load(BUSTER_HIT_SFX, SOUND);
+
+        am.load(BEAR_ENEMY_SFX, SOUND);
+        am.load(RAT_ENEMY_SFX, SOUND);
+        am.load(TROLL_ENEMY_SFX, SOUND);
+
         am.load(COURIER_FONT_32, BITMAP_FONT);
 
         return am;
@@ -160,14 +169,14 @@ public class Assets {
     private static final String ANI_ATLAS = "animations/animations.atlas";
     private static final String SPRITE_ATLAS = "sprites/sprites.atlas";
 
-    private static final String DAGGER_HIT_SFX = "sfx/Dagger.wav";
-    private static final String HATCHET_HIT_SFX = "sfx/hatchet.wav";
-    private static final String KATANA_HIT_SFX = "sfx/katana_sword.wav";
-    private static final String BUSTER_HIT_SFX = "sfx/big_buster.wav";
+    private static final String DAGGER_HIT_SFX = "sfx/Dagger.mp3";
+    private static final String HATCHET_HIT_SFX = "sfx/hatchet.mp3";
+    private static final String KATANA_HIT_SFX = "sfx/katana_sword.mp3";
+    private static final String BUSTER_HIT_SFX = "sfx/big_buster.mp3";
 
-    private static final String BEAR_ENEMY_SFX = "sfx/bear.wav";
-    private static final String RAT_ENEMY_SFX = "sfx/rat.wav";
-    private static final String TROLL_ENEMY_SFX = "sfx.troll.wav";
+    private static final String BEAR_ENEMY_SFX = "sfx/bear.mp3";
+    private static final String RAT_ENEMY_SFX = "sfx/rat.mp3";
+    private static final String TROLL_ENEMY_SFX = "sfx/troll.mp3";
 
 
 }

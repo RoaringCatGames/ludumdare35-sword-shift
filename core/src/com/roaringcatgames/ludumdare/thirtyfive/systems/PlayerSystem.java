@@ -90,7 +90,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                     .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation()));
             player.add(RotateToComponent.create(engine)
                     .addRotateTo(90f, 5f)
-                    .addRotateTo(-90f, -10f));
+                    .addRotateTo(-120f, -15f));
             engine.addEntity(player);
 
         }
@@ -146,6 +146,10 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 //return to idle
                 isAttacking = false;
                 swingDagger(0.0f);
+                //reset dagger animations
+                for(int i = 0; i < rtc.Rotations.size; i++){
+                    rtc.Rotations.get(i).isFinished = false;
+                }
             }else {
                 //do the rotation
                 boolean isAtTarget = false;

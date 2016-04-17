@@ -28,6 +28,7 @@ public class PlayerComponent implements Component,Pool.Poolable{
         energyLevel = 0;
         isAttacking = false;
         auraType = AuraType.PURPLE;
+        weaponType = WeaponType.DAGGER;
 
     }
 }

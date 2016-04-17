@@ -35,7 +35,7 @@ public class Assets {
     }
 
     public static Array<TextureAtlas.AtlasRegion> getTestFrames(){
-        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("test");
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/dagger-idle");
     }
 
 

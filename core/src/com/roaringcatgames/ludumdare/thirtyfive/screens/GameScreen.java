@@ -35,8 +35,8 @@ public class GameScreen extends LazyInitScreen{
 
         RenderingSystem renderer = new RenderingSystem(game.getBatch(), App.PPM);
 
-        engine.addSystem(new AnimationSystem());
         engine.addSystem(new MovementSystem());
+        engine.addSystem(new AnimationSystem());
         engine.addSystem(new BoundsSystem());
         engine.addSystem(new MultiBoundsSystem());
         engine.addSystem(new RemainInBoundsSystem(minBounds, maxBounds));
@@ -56,43 +56,43 @@ public class GameScreen extends LazyInitScreen{
         engine.addEntity(playBounds);
         //END DEBUG PURPOSES
 
-        Entity entity = engine.createEntity();
-        entity.add(TextureComponent.create(engine)
-                .setRegion(Assets.getBadGuyTexture()));
-
-        entity.add(AnimationComponent.create(engine)
-                .addAnimation("DEFAULT", Animations.getTestAnimation()));
-        entity.add(StateComponent.create(engine).set("DEFAULT"));
-
-        entity.add(TransformComponent.create(engine)
-                .setPosition(10f, 10f, 1f)
-                .setRotation(30f));
-
-        entity.add(BoundsComponent.create(engine)
-            .setBounds(0f, 0f, 8f, 8f));
-        entity.add(RemainInBoundsComponent.create(engine)
-            .setMode(BoundMode.CENTER));
-        entity.add(MultiBoundsComponent.create(engine)
-                .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, 0.5f))
-                .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, -0.5f))
-                .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, 0.5f))
-                .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, -0.5f)));
-
-        entity.add(VelocityComponent.create(engine)
-                .setSpeed(2f, 3f));
-
-        entity.add(ParticleEmitterComponent.create(engine)
-            .setAngleRange(0f, 360f)
-            .setDuration(10f)
-            .setShouldLoop(true)
-            .setParticleImages(Assets.getTestFrames())
-            .setParticleLifespans(0.5f, 1f)
-            .setShouldFade(true)
-            .setSpawnRate(200f)
-            .setSpeed(2f, 10f)
-            .setZIndex(0f));
-
-        engine.addEntity(entity);
+//        Entity entity = engine.createEntity();
+//        entity.add(TextureComponent.create(engine)
+//                .setRegion(Assets.getBadGuyTexture()));
+//
+//        entity.add(AnimationComponent.create(engine)
+//                .addAnimation("DEFAULT", Animations.getTestAnimation()));
+//        entity.add(StateComponent.create(engine).set("DEFAULT"));
+//
+//        entity.add(TransformComponent.create(engine)
+//                .setPosition(10f, 10f, 1f)
+//                .setRotation(30f));
+//
+//        entity.add(BoundsComponent.create(engine)
+//            .setBounds(0f, 0f, 8f, 8f));
+//        entity.add(RemainInBoundsComponent.create(engine)
+//            .setMode(BoundMode.CENTER));
+//        entity.add(MultiBoundsComponent.create(engine)
+//                .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, 0.5f))
+//                .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, -0.5f))
+//                .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, 0.5f))
+//                .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, -0.5f)));
+//
+//        entity.add(VelocityComponent.create(engine)
+//                .setSpeed(2f, 3f));
+//
+////        entity.add(ParticleEmitterComponent.create(engine)
+////            .setAngleRange(0f, 360f)
+////            .setDuration(10f)
+////            .setShouldLoop(true)
+////            .setParticleImages(Assets.getTestFrames())
+////            .setParticleLifespans(0.5f, 1f)
+////            .setShouldFade(true)
+////            .setSpawnRate(200f)
+////            .setSpeed(2f, 10f)
+////            .setZIndex(0f));
+//
+//        engine.addEntity(entity);
     }
 
     @Override

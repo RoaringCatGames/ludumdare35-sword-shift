@@ -91,7 +91,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                     .setOpacity(1f)
                     .setPosition(10f, 10f, Z.player));
             player.add(BoundsComponent.create(engine)
-                    .setBounds(3f, 3f, 1f, 1f));
+                    .setBounds(3f, 3f, 4.375f, 3.4f));
             player.add(StateComponent.create(engine)
                     .set("DEFAULT")
                     .setLooping(true));

@@ -14,11 +14,11 @@ public class PlayerComponent implements Component,Pool.Poolable{
     public AuraType transformType = AuraType.PURPLE;
     public int energyLevel = 0;
 
-    public static AnimationComponent create(Engine engine){
+    public static PlayerComponent create(Engine engine){
         if(engine instanceof PooledEngine){
-            return ((PooledEngine)engine).createComponent(AnimationComponent.class);
+            return ((PooledEngine)engine).createComponent(PlayerComponent.class);
         }else {
-            return new AnimationComponent();
+            return new PlayerComponent();
         }
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -36,6 +37,8 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     private ComponentMapper<TransformComponent> tm;
     private boolean isAttacking;
     private ComponentMapper<RotateToComponent> rtm;
+
+    //private Sound
 
     private ArrayList<Integer> isPressed = new ArrayList();
 
@@ -90,7 +93,8 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                     .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation()));
             player.add(RotateToComponent.create(engine)
                     .addRotateTo(90f, 5f)
-                    .addRotateTo(-120f, -15f));
+                    .addRotateTo(-120f, -15f)
+                    .addRotateTo(0f, 30));
             engine.addEntity(player);
 
         }

@@ -66,10 +66,17 @@ public class EnemySpawnerSystem extends IteratingSystem {
                 float dmg = Damage.rat;
                 switch(def.enemyType){
                     case RAT:
-                         e.add(AnimationComponent.create(eg)
-                                .addAnimation("DEFAULT", Animations.getRatWalking())
-                                .addAnimation("ATTACKING", Animations.getRatAttacking())
-                                .addAnimation("DYING", Animations.getRatDying()));
+                         if(def.auraType == AuraType.YELLOW) {
+                             e.add(AnimationComponent.create(eg)
+                                     .addAnimation("DEFAULT", Animations.getRatWalking())
+                                     .addAnimation("ATTACKING", Animations.getRatAttacking())
+                                     .addAnimation("DYING", Animations.getRatDying()));
+                         }else{
+                             e.add(AnimationComponent.create(eg)
+                                     .addAnimation("DEFAULT", Animations.getRatAltWalking())
+                                     .addAnimation("ATTACKING", Animations.getRatAltAttacking())
+                                     .addAnimation("DYING", Animations.getRatAltDying()));
+                         }
                         break;
                     case BEAR:
                         e.add(AnimationComponent.create(eg)

@@ -34,33 +34,20 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
 
         RenderingSystem renderer = new RenderingSystem(game.getBatch(), App.PPM);
 
-        engine.addSystem(new MovementSystem());
-        engine.addSystem(new GravitySystem(new Vector2(-0.5f, -2.5f)));
-        engine.addSystem(new MultiBoundsSystem());
 
         engine.addSystem(renderer);
         engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));
 
         Entity entity = engine.createEntity();
         entity.add(TextureComponent.create(engine)
-            .setRegion(Assets.getBadGuyTexture()));
+            .setRegion(Assets.getMenuScreen()));
 
         entity.add(AnimationComponent.create(engine)
             .addAnimation("DEFAULT", Animations.getTestAnimation()));
         entity.add(StateComponent.create(engine).set("DEFAULT"));
 
         entity.add(TransformComponent.create(engine)
-            .setPosition(10f, 10f, 1f)
-            .setRotation(30f));
-
-        entity.add(MultiBoundsComponent.create(engine)
-            .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, 0.5f))
-            .addBound(new Bound(new Circle(0f, 0f, 0.5f), 0.5f, -0.5f))
-            .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, 0.5f))
-            .addBound(new Bound(new Circle(0f, 0f, 0.5f), -0.5f, -0.5f)));
-
-        entity.add(VelocityComponent.create(engine)
-            .setSpeed(2f, 3f));
+            .setPosition(App.W/2f, App.H/2f, 1f));
 
         engine.addEntity(entity);
 

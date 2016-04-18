@@ -45,6 +45,10 @@ public class Assets {
         return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("badlogic");
     }
 
+    public static TextureAtlas.AtlasRegion getMenuScreen(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("menu-screen");
+    }
+
     public static Array<TextureAtlas.AtlasRegion> getTestFrames(){
         return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/dagger-idle");
     }

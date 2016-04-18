@@ -82,14 +82,14 @@ public class EnemyAiSystem extends IteratingSystem {
                             enemyState.set("DEFAULT");
                         }
                         enemyPos.setScale(-1f * Math.abs(enemyPos.scale.x), enemyPos.scale.y);
-                        enemyVel.setSpeed(2f, enemyVel.speed.y);
+                        enemyVel.setSpeed(Speed.getSpeed(ec.enemyType), enemyVel.speed.y);
                         trigger.setOffset((-1f * trigger.offset.x) - trigger.triggerBox.width, trigger.offset.y);
                     } else if ((enemyVel.speed.x == 0f || trigger.offset.x > 0f) && playerRight < triggerBoxLeft) {
                         if (enemyState.get() != "DEFAULT") {
                             enemyState.set("DEFAULT");
                         }
                         enemyPos.setScale(Math.abs(enemyPos.scale.x), enemyPos.scale.y);
-                        enemyVel.setSpeed(-2f, enemyVel.speed.y);
+                        enemyVel.setSpeed(-Speed.getSpeed(ec.enemyType), enemyVel.speed.y);
                         trigger.setOffset((-1f * trigger.offset.x) - trigger.triggerBox.width, trigger.offset.y);
                     }
                 }

@@ -1,5 +1,7 @@
 package com.roaringcatgames.ludumdare.thirtyfive;
 
+import com.badlogic.ashley.core.Component;
+
 /**
  * Created by barry on 4/16/16 @ 12:01 PM.
  */

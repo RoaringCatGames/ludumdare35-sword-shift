@@ -54,19 +54,19 @@ public class Assets {
     }
 
     public static Array<TextureAtlas.AtlasRegion> getDaggerIdleFrames(){
-        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("dagger-idle");
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/dagger-idle");
     }
     public static Array<TextureAtlas.AtlasRegion> getHatchetIdleFrames(){
-        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("hatchet-idle");
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/hatchet-idle");
     }
     public static Array<TextureAtlas.AtlasRegion> getSwordIdleFrames(){
-        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("sword-idle");
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/sword-idle");
     }
     public static Array<TextureAtlas.AtlasRegion> getHammerIdleFrames(){
-        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("hammer-idle");
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/hammer-idle");
     }
     public static Array<TextureAtlas.AtlasRegion> getBusterIdleFrames(){
-        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("buster-idle");
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("weapon/buster-idle");
     }
 
     private static Array<TextureAtlas.AtlasRegion> purpleParticles = new Array<>();

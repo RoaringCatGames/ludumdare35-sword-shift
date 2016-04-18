@@ -93,11 +93,11 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             player.add(BoundsComponent.create(engine)
                     .setBounds(3f, 3f, 4.375f, 3.4f));
             player.add(StateComponent.create(engine)
-                    .set("HATCHET_IDLE")
+                    .set("DEFAULT")
                     .setLooping(true));
             player.add(TextureComponent.create(engine));
             player.add(AnimationComponent.create(engine)
-                    .addAnimation("DEFAULT", Animations.getTestAnimation())
+                    .addAnimation("DEFAULT", Animations.getDaggerIdleAnimation())
                     .addAnimation("DAGGER_IDLE", Animations.getDaggerIdleAnimation())
                     .addAnimation("HATCHET_IDLE", Animations.getHatchetIdleAnimation())
                     .addAnimation("HAMMER_IDLE", Animations.getHammerIdleAnimation())
@@ -218,7 +218,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 case HAMMER:
                     player.add(RotateToComponent.create(getEngine())
                             .addRotateTo(90f, 600f)
-                            .addRotateTo(-120f, -900f)
+                            .addRotateTo(-200f, -900f)
                             .addRotateTo(0f, 3000f));
                     break;
                 case KATANA:

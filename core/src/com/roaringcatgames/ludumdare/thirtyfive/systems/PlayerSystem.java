@@ -218,7 +218,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
                 case HAMMER:
                     player.add(RotateToComponent.create(getEngine())
                             .addRotateTo(90f, 600f)
-                            .addRotateTo(-120f, -900f)
+                            .addRotateTo(-200f, -900f)
                             .addRotateTo(0f, 3000f));
                     break;
                 case KATANA:

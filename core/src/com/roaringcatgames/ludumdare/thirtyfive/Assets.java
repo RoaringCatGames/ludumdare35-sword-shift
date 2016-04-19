@@ -40,7 +40,10 @@ public class Assets {
     }
 
     public static Array<TextureAtlas.AtlasRegion> getLoadingFrames(){
-        return am.get(LOADING_ATLAS, TEXTURE_ATLAS).findRegions("loading");
+        return am.get(LOADING_ATLAS, TEXTURE_ATLAS).findRegions("buster-idle");
+    }
+    public static Array<TextureAtlas.AtlasRegion> getTitleFrames(){
+        return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("title/cs");
     }
 
     public static TextureRegion getBadGuyTexture(){

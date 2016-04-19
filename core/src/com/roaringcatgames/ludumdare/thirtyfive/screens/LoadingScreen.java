@@ -4,13 +4,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.roaringcatgames.kitten2d.ashley.components.AnimationComponent;
-import com.roaringcatgames.kitten2d.ashley.components.StateComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TextureComponent;
-import com.roaringcatgames.kitten2d.ashley.components.TransformComponent;
+import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.kitten2d.ashley.systems.AnimationSystem;
+import com.roaringcatgames.kitten2d.ashley.systems.MovementSystem;
 import com.roaringcatgames.kitten2d.ashley.systems.RenderingSystem;
 import com.roaringcatgames.ludumdare.thirtyfive.Animations;
 import com.roaringcatgames.ludumdare.thirtyfive.App;
@@ -35,6 +34,7 @@ public class LoadingScreen extends LazyInitScreen {
     protected void init() {
         engine = new PooledEngine();
 
+        engine.addSystem(new MovementSystem());
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new RenderingSystem(game.getBatch(), App.PPM));
 
@@ -46,12 +46,17 @@ public class LoadingScreen extends LazyInitScreen {
             .set("DEFAULT")
             .setLooping(true));
         loading.add(TransformComponent.create(engine)
-            .setPosition(App.W/2f, App.H/2f));
+                .setPosition(-5f, 25f)
+                .setRotation(-90f));
+        loading.add(VelocityComponent.create(engine)
+            .setSpeed(30f, 0f));
         engine.addEntity(loading);
     }
 
     @Override
     protected void update(float delta) {
+        Gdx.gl.glClearColor(255f, 255f, 255f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         elapsedTime += delta;
 
         if(Assets.am.update() && elapsedTime >= minSplashSeconds){

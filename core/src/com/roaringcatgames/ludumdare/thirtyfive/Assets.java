@@ -23,6 +23,8 @@ public class Assets {
         am.load(ANI_ATLAS, TEXTURE_ATLAS);
         am.load(SPRITE_ATLAS, TEXTURE_ATLAS);
 
+        am.load(BG_MUSIC, MUSIC);
+
         am.load(DAGGER_HIT_SFX, SOUND);
         am.load(HATCHET_HIT_SFX, SOUND);
         am.load(KATANA_HIT_SFX, SOUND);
@@ -46,7 +48,7 @@ public class Assets {
     }
 
     public static TextureAtlas.AtlasRegion getMenuScreen(){
-        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("menu-screen");
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("title");
     }
 
     public static Array<TextureAtlas.AtlasRegion> getTestFrames(){
@@ -140,6 +142,9 @@ public class Assets {
     /////////////////
     //SFX
     /////////////////
+    public static Music getBGMusic() {
+        return am.get(BG_MUSIC, MUSIC);
+    }
     public static Sound getDaggerSfx(){
         return am.get(DAGGER_HIT_SFX);
     }
@@ -173,6 +178,7 @@ public class Assets {
     private static final String ANI_ATLAS = "animations/animations.atlas";
     private static final String SPRITE_ATLAS = "sprites/sprites.atlas";
 
+    private static final String BG_MUSIC = "music/bg_music.mp3";
     private static final String DAGGER_HIT_SFX = "sfx/Dagger.mp3";
     private static final String HATCHET_HIT_SFX = "sfx/hatchet.mp3";
     private static final String KATANA_HIT_SFX = "sfx/katana_sword.mp3";

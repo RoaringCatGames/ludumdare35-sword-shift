@@ -2,6 +2,7 @@ package com.roaringcatgames.ludumdare.thirtyfive.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
@@ -25,6 +26,8 @@ public class EnemySpawnerSystem extends IteratingSystem {
 
     private ComponentMapper<TransformComponent> tm;
 
+    private Sound ratSfx;
+
     private class EnemyGroup{
         public boolean hasSpawned = false;
         public float xTrigger;
@@ -40,6 +43,7 @@ public class EnemySpawnerSystem extends IteratingSystem {
         super(Family.all(EnemyComponent.class).get());
         this.cam = cam;
         this.tm = ComponentMapper.getFor(TransformComponent.class);
+        ratSfx = Assets.getRatSfx();
     }
 
     @Override
@@ -103,7 +107,7 @@ public class EnemySpawnerSystem extends IteratingSystem {
                         break;
                 }
                 e.add(TriggerAreaComponent.create(engine)
-                        .setOffset(-3f - (width/2f), -(height/2f))
+                        .setOffset(-3f - (width / 2f), -(height / 2f))
                         .setTriggerBox(3f, height));
                 e.add(HealthComponent.create(engine)
                     .setHealth(health).setMaxHealth(health));
@@ -165,7 +169,7 @@ public class EnemySpawnerSystem extends IteratingSystem {
                 for(Entity e:group.entities){
                     TransformComponent tc = tm.get(e);
                     tc.position.set(tc.position.x + x, tc.position.y, tc.position.z);
-
+                    ratSfx.play(1f);
                     getEngine().addEntity(e);
                 }
 

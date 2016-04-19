@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Circle;
@@ -23,6 +24,7 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
 
     private PooledEngine engine;
     private IGameProcessor game;
+    private Music bgMusic;
 
     public MenuScreen(IGameProcessor gp){
         this.game = gp;
@@ -30,6 +32,11 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
 
     @Override
     protected void init() {
+        bgMusic = Assets.getBGMusic();
+        bgMusic.setVolume(1f);
+        bgMusic.setLooping(true);
+        bgMusic.play();
+
         engine = new PooledEngine();
 
         RenderingSystem renderer = new RenderingSystem(game.getBatch(), App.PPM);

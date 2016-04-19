@@ -30,6 +30,7 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
         this.game = gp;
     }
 
+    private boolean isActive = true;
     private Entity title;
     @Override
     protected void init() {
@@ -99,9 +100,17 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
         }
     }
 
+    private void startGame(){
+        if(isActive){
+            isActive = false;
+            game.switchScreens("GAME");
+        }
+    }
 
     @Override
     public boolean keyDown(int keycode) {
+
+        startGame();
         return false;
     }
 
@@ -118,7 +127,7 @@ public class MenuScreen extends LazyInitScreen implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        game.switchScreens("GAME");
+        startGame();
         return false;
     }
 

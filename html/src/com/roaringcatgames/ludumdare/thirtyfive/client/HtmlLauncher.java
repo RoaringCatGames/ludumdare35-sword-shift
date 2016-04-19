@@ -1,15 +1,16 @@
-package com.roaringcatgames.ludumdare.35.client;
+package com.roaringcatgames.ludumdare.thirtyfive.client;
+
+import com.badlogic.gdx.backends.gwt.GwtApplication;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.roaringcatgames.ludumdare.35.SwordShiftGame;
+import com.roaringcatgames.ludumdare.thirtyfive.SwordShiftGame;
 
 public class HtmlLauncher extends GwtApplication {
 
         @Override
         public GwtApplicationConfiguration getConfig () {
-                return new GwtApplicationConfiguration(480, 320);
+                return new GwtApplicationConfiguration(960, 720);
         }
 
         @Override

@@ -4,9 +4,10 @@
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.gdx.controllers.controllers-gwt' />
 	<inherits name='com.badlogic.ashley_gwt' />
+	<inherits name='AshleyExtensions' />
 
 	<inherits name='SwordShiftGame' />
-	<entry-point class='com.roaringcatgames.ludumdare.35.client.HtmlLauncher' />
+	<entry-point class='com.roaringcatgames.ludumdare.thirtyfive.client.HtmlLauncher' />
 	
 	<set-configuration-property name="gdx.assetpath" value="../core/assets" />
 </module>

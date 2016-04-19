@@ -8,6 +8,7 @@ import com.roaringcatgames.ludumdare.thirtyfive.SwordShiftGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "Chopping Spree";
 		config.width = App.PixelW;
 		config.height = App.PixelH;
 		new LwjglApplication(new SwordShiftGame(), config);

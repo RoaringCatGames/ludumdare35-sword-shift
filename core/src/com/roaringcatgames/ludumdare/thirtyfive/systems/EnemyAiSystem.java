@@ -11,6 +11,7 @@ import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.ludumdare.thirtyfive.Speed;
 import com.roaringcatgames.ludumdare.thirtyfive.components.EnemyComponent;
 import com.roaringcatgames.ludumdare.thirtyfive.components.PlayerComponent;
+import com.roaringcatgames.ludumdare.thirtyfive.components.TriggerAreaComponent;
 
 /**
  * Created by barry on 4/17/16 @ 4:55 PM.
@@ -26,6 +27,8 @@ public class EnemyAiSystem extends IteratingSystem {
     private ComponentMapper<MoveToComponent> mtm;
     private ComponentMapper<StateComponent> sm;
     private ComponentMapper<VelocityComponent> vm;
+    private ComponentMapper<BoundsComponent> bm;
+    private ComponentMapper<TriggerAreaComponent> tam;
 
     public EnemyAiSystem(){
         super(Family.one(PlayerComponent.class, EnemyComponent.class).get());
@@ -37,6 +40,8 @@ public class EnemyAiSystem extends IteratingSystem {
         mtm = ComponentMapper.getFor(MoveToComponent.class);
         sm = ComponentMapper.getFor(StateComponent.class);
         vm = ComponentMapper.getFor(VelocityComponent.class);
+        bm = ComponentMapper.getFor(BoundsComponent.class);
+        tam = ComponentMapper.getFor(TriggerAreaComponent.class);
     }
 
     @Override
@@ -45,27 +50,48 @@ public class EnemyAiSystem extends IteratingSystem {
         PooledEngine engine = (PooledEngine)getEngine();
 
         TransformComponent playerPos = tm.get(player);
+        BoundsComponent playerBounds = bm.get(player);
+        float playerLeft = playerBounds.bounds.x;
+        float playerRight = playerBounds.bounds.x + playerBounds.bounds.width;
+
         for(Entity enemy:enemies){
             EnemyComponent ec = em.get(enemy);
             MoveToComponent mtc = mtm.get(enemy);
             TransformComponent enemyPos = tm.get(enemy);
             StateComponent enemyState = sm.get(enemy);
             VelocityComponent enemyVel = vm.get(enemy);
+            TriggerAreaComponent trigger = tam.get(enemy);
+
+            float triggerBoxLeft = trigger.triggerBox.x;
+            float triggerBoxRight = trigger.triggerBox.x + trigger.triggerBox.width;
 
             if(enemyState.get() != "DYING") {
-                float xAdjust = K2MathUtil.getRandomInRange(-2f, 2f);
-                float yAdjust = 0f; //K2MathUtil.getRandomInRange(-2f, 2f);
-                float x = playerPos.position.x + xAdjust;
-                float y = playerPos.position.y + yAdjust;
-
-                if(playerPos.position.x == enemyPos.position.x){
+                if (trigger.triggerBox.overlaps(playerBounds.bounds)) {
                     enemyVel.setSpeed(0f, enemyVel.speed.y);
-                }else if (playerPos.position.x > enemyPos.position.x) {
-                    enemyPos.setScale(-1f * Math.abs(enemyPos.scale.x), enemyPos.scale.y);
-                    enemyVel.setSpeed(Math.abs(enemyVel.speed.x), enemyVel.speed.y);
-                } else {
-                    enemyPos.setScale(Math.abs(enemyPos.scale.x), enemyPos.scale.y);
-                    enemyVel.setSpeed(-1f * Math.abs(enemyVel.speed.x), enemyVel.speed.y);
+                    if (enemyState.get() != "ATTACKING") {
+                        enemyState.set("ATTACKING");
+                    }
+                } else if(enemyState.get() != "DEFAULT"){
+                    enemyState.set("DEFAULT");
+                }
+
+                if(enemyState.get() != "ATTACKING") {
+                    if ((enemyVel.speed.x == 0f || trigger.offset.x < 0f) && playerLeft > triggerBoxRight) {
+                        //}else if (playerPos.position.x > enemyPos.position.x) {
+                        if (enemyState.get() != "DEFAULT") {
+                            enemyState.set("DEFAULT");
+                        }
+                        enemyPos.setScale(-1f * Math.abs(enemyPos.scale.x), enemyPos.scale.y);
+                        enemyVel.setSpeed(Speed.getSpeed(ec.enemyType), enemyVel.speed.y);
+                        trigger.setOffset((-1f * trigger.offset.x) - trigger.triggerBox.width, trigger.offset.y);
+                    } else if ((enemyVel.speed.x == 0f || trigger.offset.x > 0f) && playerRight < triggerBoxLeft) {
+                        if (enemyState.get() != "DEFAULT") {
+                            enemyState.set("DEFAULT");
+                        }
+                        enemyPos.setScale(Math.abs(enemyPos.scale.x), enemyPos.scale.y);
+                        enemyVel.setSpeed(-Speed.getSpeed(ec.enemyType), enemyVel.speed.y);
+                        trigger.setOffset((-1f * trigger.offset.x) - trigger.triggerBox.width, trigger.offset.y);
+                    }
                 }
             }
         }

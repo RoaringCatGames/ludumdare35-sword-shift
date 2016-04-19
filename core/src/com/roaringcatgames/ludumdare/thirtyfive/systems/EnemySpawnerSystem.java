@@ -2,6 +2,7 @@ package com.roaringcatgames.ludumdare.thirtyfive.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
@@ -9,6 +10,7 @@ import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.ludumdare.thirtyfive.*;
 import com.roaringcatgames.ludumdare.thirtyfive.components.AuraType;
 import com.roaringcatgames.ludumdare.thirtyfive.components.EnemyComponent;
+import com.roaringcatgames.ludumdare.thirtyfive.components.TriggerAreaComponent;
 import com.roaringcatgames.ludumdare.thirtyfive.data.EnemyDefinition;
 import com.roaringcatgames.ludumdare.thirtyfive.data.SpawnBatch;
 import com.roaringcatgames.ludumdare.thirtyfive.data.SpawnGroup;
@@ -23,6 +25,8 @@ public class EnemySpawnerSystem extends IteratingSystem {
     private OrthographicCamera cam;
 
     private ComponentMapper<TransformComponent> tm;
+
+    private Sound ratSfx;
 
     private class EnemyGroup{
         public boolean hasSpawned = false;
@@ -39,6 +43,7 @@ public class EnemySpawnerSystem extends IteratingSystem {
         super(Family.all(EnemyComponent.class).get());
         this.cam = cam;
         this.tm = ComponentMapper.getFor(TransformComponent.class);
+        ratSfx = Assets.getRatSfx();
     }
 
     @Override
@@ -101,6 +106,9 @@ public class EnemySpawnerSystem extends IteratingSystem {
                         dmg = Damage.troll;
                         break;
                 }
+                e.add(TriggerAreaComponent.create(engine)
+                        .setOffset(-3f - (width / 2f), -(height / 2f))
+                        .setTriggerBox(3f, height));
                 e.add(HealthComponent.create(engine)
                     .setHealth(health).setMaxHealth(health));
                 e.add(DamageComponent.create(engine)
@@ -126,11 +134,11 @@ public class EnemySpawnerSystem extends IteratingSystem {
                 e.add(ParticleEmitterComponent.create(eg)
                         .setShouldLoop(true)
                         .setZIndex(Z.aura)
-                        .setSpeed(2f, 10f)
-                        .setSpawnRate(30f)
-                        .setAngleRange(0f, 360f)
+                        .setSpeed(2f, 5f)
+                        .setSpawnRate(50f)
+                        .setAngleRange(-45f, 45f)
                         .setShouldFade(true)
-                        .setParticleLifespans(1f, 2f)
+                        .setParticleLifespans(0.5f, 3f)
                         .setParticleImages(regions));
 
                 group.entities.add(e);
@@ -161,7 +169,7 @@ public class EnemySpawnerSystem extends IteratingSystem {
                 for(Entity e:group.entities){
                     TransformComponent tc = tm.get(e);
                     tc.position.set(tc.position.x + x, tc.position.y, tc.position.z);
-
+                    ratSfx.play(1f);
                     getEngine().addEntity(e);
                 }
 

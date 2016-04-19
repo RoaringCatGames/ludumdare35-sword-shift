@@ -98,6 +98,7 @@ public class AttackResolutionSystem extends IteratingSystem {
                         es.set("DYING").setLooping(false);
                         e.remove(MoveToComponent.class);
                         e.remove(VelocityComponent.class);
+                        e.remove(ParticleEmitterComponent.class);
                     }
                 }
             }

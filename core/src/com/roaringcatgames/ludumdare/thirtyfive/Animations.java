@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
  */
 public class Animations {
 
+    private static Animation title;
+
     private static Animation testAnimation;
     private static Animation loading;
     private static Animation dagger;
@@ -34,6 +36,7 @@ public class Animations {
 
 
     public static void init(){
+        title = new Animation(1f/12f, Assets.getTitleFrames());
         testAnimation = new Animation(1f/12f, Assets.getTestFrames());
 
         ratWalking = new Animation(1f/13f, Assets.getRatWalkingRegions());
@@ -63,6 +66,9 @@ public class Animations {
 
     public static Animation getLoadingAnimation(){
         return loading;
+    }
+    public static Animation getTitle(){
+        return title;
     }
     public static Animation getTestAnimation(){
         return testAnimation;

@@ -11,10 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.roaringcatgames.kitten2d.ashley.components.*;
 import com.roaringcatgames.ludumdare.thirtyfive.*;
-import com.roaringcatgames.ludumdare.thirtyfive.components.AuraType;
-import com.roaringcatgames.ludumdare.thirtyfive.components.PlayerComponent;
-import com.roaringcatgames.ludumdare.thirtyfive.components.RotateTo;
-import com.roaringcatgames.ludumdare.thirtyfive.components.RotateToComponent;
+import com.roaringcatgames.ludumdare.thirtyfive.components.*;
 
 import java.util.ArrayList;
 
@@ -32,6 +29,10 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     private ComponentMapper<StateComponent> sm;
     private ComponentMapper<TransformComponent> tm;
     private ComponentMapper<ParticleEmitterComponent> pem;
+    private ComponentMapper<AnimationComponent> am;
+    private ComponentMapper<MultiBoundsComponent> mbm;
+    private ComponentMapper<BoundsComponent> bm;
+    private int currentEnergy = 0;
 
     //private boolean isAttacking;
     private ComponentMapper<RotateToComponent> rtm;
@@ -54,6 +55,9 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         this.sm = ComponentMapper.getFor(StateComponent.class);
         this.tm = ComponentMapper.getFor(TransformComponent.class);
         this.rtm = ComponentMapper.getFor(RotateToComponent.class);
+        this.am = ComponentMapper.getFor(AnimationComponent.class);
+        this.mbm = ComponentMapper.getFor(MultiBoundsComponent.class);
+        this.bm = ComponentMapper.getFor(BoundsComponent.class);
 
         daggerSfx = Assets.getDaggerSfx();
         hatchetSfx = Assets.getHatchetSfx();
@@ -84,7 +88,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
             player = engine.createEntity();
 
             player.add(PlayerComponent.create(engine));
-            player.add(RemainInBoundsComponent.create(engine));
+            player.add(RemainInBoundsComponent.create(engine).setMode(BoundMode.CENTER));
             player.add(VelocityComponent.create(engine)
                 .setSpeed(0f, 0f));
             player.add(TransformComponent.create(engine)
@@ -139,6 +143,22 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         VelocityComponent vc = vm.get(player);
         TransformComponent tc = tm.get(player);
         RotateToComponent rtc = rtm.get(player);
+
+        //Check level up
+        if(currentEnergy > 10){
+            levelUp();
+            pc.energyLevel = 0;
+            currentEnergy = 0;
+        }
+        else if(currentEnergy < 0){
+            levelDown();
+            pc.energyLevel = 0;
+            currentEnergy = 0;
+        }
+        else{
+            currentEnergy = pc.energyLevel;
+        }
+
         if(isPressed.contains(new Integer(Input.Keys.LEFT)) || isPressed.contains(new Integer(Input.Keys.A))) {
             vc.setSpeed(-10f, vc.speed.y);
         }
@@ -187,7 +207,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         isPressed.add(keycode);
-        if(Input.Keys.SHIFT_LEFT == keycode) {
+        if(Input.Keys.E == keycode) {
             PlayerComponent pc = pm.get(player);
             ParticleEmitterComponent pec = pem.get(player);
             if(pc.auraType == AuraType.YELLOW){
@@ -291,5 +311,127 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+    }
+
+    /* Helper functions*/
+    public void levelUp() {
+        PlayerComponent pc = pm.get(player);
+        StateComponent sc = sm.get(player);
+
+        //dagger hatchet katana hammer buster
+        switch(pc.weaponType) {
+            case DAGGER :
+                pc.weaponType = WeaponType.HATCHET;
+                sc.set("HATCHET_IDLE");
+                updateBounds();
+                break;
+            case HATCHET:
+                pc.weaponType = WeaponType.KATANA;
+                sc.set("KATANA_IDLE");
+                updateBounds();
+                break;
+            case KATANA:
+                pc.weaponType = WeaponType.HAMMER;
+                sc.set("HAMMER_IDLE");
+                updateBounds();
+                break;
+            case HAMMER:
+                pc.weaponType = WeaponType.BUSTER;
+                sc.set("BUSTER_IDLE");
+                updateBounds();
+                break;
+            case BUSTER:
+                //Do nothing YOUR AWESOME
+                break;
+            default :
+                pc.weaponType = WeaponType.HATCHET;
+                sc.set("HATCHET_IDLE");
+                updateBounds();
+                break;
+        }
+    }
+
+    public void levelDown() {
+        PlayerComponent pc = pm.get(player);
+        StateComponent sc = sm.get(player);
+        //dagger hatchet katana hammer buster
+        switch(pc.weaponType) {
+            case DAGGER:
+                //do nothing or lose condition
+                break;
+            case HATCHET:
+                pc.weaponType = WeaponType.DAGGER;
+                sc.set("DAGGER_IDLE");
+                updateBounds();
+                break;
+            case KATANA:
+                pc.weaponType = WeaponType.HATCHET;
+                sc.set("HATCHET_IDLE");
+                updateBounds();
+                break;
+            case HAMMER:
+                pc.weaponType = WeaponType.KATANA;
+                sc.set("KATANA_IDLE");
+                updateBounds();
+                break;
+            case BUSTER:
+                pc.weaponType = WeaponType.HAMMER;
+                sc.set("HAMMER_IDLE");
+                updateBounds();
+                break;
+            default :
+                pc.weaponType = WeaponType.HATCHET;
+                sc.set("DEFAULT");
+                updateBounds();
+                break;
+        }
+    }
+
+    public void updateBounds(){
+        PlayerComponent pc = pm.get(player);
+        MultiBoundsComponent mbc = mbm.get(player);
+        BoundsComponent bc = bm.get(player);
+        mbc.bounds.clear();
+        switch(pc.weaponType) {
+            case DAGGER:
+                bc.setBounds(3f, 3f, 4.375f, 3.4f);
+                mbc.addBound(new Bound(new Circle(0f, 0f, 1f), 0f, 0f))
+                    .addBound(new Bound(new Circle(0f, 0f, 1f), 1f, 0f))
+                    .addBound(new Bound(new Circle(0f, 0f, 0.5f), 2f, 0f));
+                break;
+            case HATCHET:
+                bc.setBounds(0f, 0f, 7.6875f,  8.71875f);
+                mbc.addBound(new Bound(new Circle(0f, 0f, 1f), 2.50f, 2.75f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1f), 2.50f, 2.5f))
+                         .addBound(new Bound(new Circle(0f, 0f, 1f), 2.50f, 2.25f));
+                break;
+            case KATANA:
+                bc.setBounds(0f, 0f, 8f, 8f);
+                mbc.addBound(new Bound(new Circle(0f, 0f, .8f), 3f, 2.5f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1f), 2.5f, 1.8f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1f), 2f, 1.2f));
+                break;
+            case HAMMER:
+                bc.setBounds(0f, 0f, 12.03125f, 12.03125f);
+                mbc.addBound(new Bound(new Circle(0f, 0f, 1.2f), 2.2f, 4.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.2f), 2.2f, 3.2f));
+                break;
+            case BUSTER:
+                bc.setBounds(0f, 0f, 18.6878f, 18.6875f);
+                mbc.addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 2.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 3.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 4.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 5.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 6.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 7.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 8.2f))
+                        .addBound(new Bound(new Circle(0f, 0f, 1.1f), 4.8f, 9.2f));
+                break;
+            default :
+                mbc.addBound(new Bound(new Circle(0f, 0f, 1f), 0f, 0f))
+                    .addBound(new Bound(new Circle(0f, 0f, 1f), 1f, 0f))
+                    .addBound(new Bound(new Circle(0f, 0f, 0.5f), 2f, 0f));
+                break;
+        }
     }
 }

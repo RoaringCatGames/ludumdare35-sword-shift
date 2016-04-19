@@ -63,7 +63,7 @@ public class GameScreen extends LazyInitScreen{
         engine.addSystem(new TextRenderingSystem(game.getBatch(),game.getGUICam(), game.getCamera()));
 
 //        engine.addSystem(new TriggerAreaDebugSystem(renderer.getCamera(), Color.ORANGE, Input.Keys.TAB));
-//        engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));
+        engine.addSystem(new DebugSystem(renderer.getCamera(), Color.CYAN, Color.PINK, Input.Keys.TAB));
 
         //FOR DEBUG PURPOSES ONLY
         Entity playBounds = engine.createEntity();

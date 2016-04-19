@@ -108,6 +108,18 @@ public class Assets {
         return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/walkpath");
     }
 
+    public static TextureAtlas.AtlasRegion getRiver(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/river");
+    }
+
+    public static TextureAtlas.AtlasRegion getBridge(){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/bridge");
+    }
+
+    public static TextureAtlas.AtlasRegion getRock(int i){
+        return am.get(SPRITE_ATLAS, TEXTURE_ATLAS).findRegion("background/rock" + i);
+    }
+
 
     public static Array<TextureAtlas.AtlasRegion> getRatWalkingRegions(){
         return am.get(ANI_ATLAS, TEXTURE_ATLAS).findRegions("enemies/rat-walk");

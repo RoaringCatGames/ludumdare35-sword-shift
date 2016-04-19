@@ -60,7 +60,7 @@ public class Animations {
         hatchet = new Animation(1f/6f, Assets.getHatchetIdleFrames());
         sword = new Animation(1f/6f, Assets.getSwordIdleFrames());
         hammer = new Animation(1f/6f, Assets.getHammerIdleFrames());
-        buster = new Animation(1f/6f, Assets.getBusterIdleFrames());
+        buster = new Animation(1f/18f, Assets.getBusterIdleFrames());
     }
 
 

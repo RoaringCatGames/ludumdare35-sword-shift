@@ -207,7 +207,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         isPressed.add(keycode);
-        if(Input.Keys.E == keycode || Input.Keys.SHIFT_LEFT == keycode) {
+        if(Input.Keys.E == keycode || Input.Keys.SHIFT_LEFT == keycode || Input.Keys.SHIFT_RIGHT == keycode) {
             PlayerComponent pc = pm.get(player);
             ParticleEmitterComponent pec = pem.get(player);
             if(pc.auraType == AuraType.YELLOW){

@@ -145,7 +145,7 @@ public class PlayerSystem extends IteratingSystem implements InputProcessor {
         RotateToComponent rtc = rtm.get(player);
 
         //Check level up
-        if(currentEnergy > 10){
+        if(currentEnergy > 30){
             levelUp();
             pc.energyLevel = 0;
             currentEnergy = 0;

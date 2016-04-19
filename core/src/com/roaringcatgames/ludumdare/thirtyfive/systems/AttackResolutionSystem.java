@@ -104,7 +104,24 @@ public class AttackResolutionSystem extends IteratingSystem {
 
 
             if(didHit && (elapsedTime - lastSfxTime) >= 0.3f){
-                daggerSfx.play(1f);
+                switch(pc.weaponType){
+                    case DAGGER:
+                        daggerSfx.play(1f);
+                        break;
+                    case HATCHET:
+                        hatchetSfx.play(1f);
+                        break;
+                    case KATANA:
+                        katanaSfx.play(1f);
+                        break;
+                    case HAMMER:
+                        hatchetSfx.play(1f);
+                        break;
+                    case BUSTER:
+                        busterSfx.play(1f);
+                        break;
+                }
+
                 lastSfxTime = elapsedTime;
             }
         }
